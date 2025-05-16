@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .top-center{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+        img {
+            float: left;
+            max-width:300%;
+            height: auto;
+        }
+        </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather app</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+    <img class="log" src="Assam_Engineering_College_logo.png" width="130"> <h1 style="font-size: 50px;" align="center" >ASSAM ENGINEERING COLLEGE</h1></div>
+   <div class="yuhu"><p align="center">Welcome to AEC Weather Watch
+        Stay updated with real-time weather and air quality data, brought to you by Assam Engineering College. Our campus-based monitoring system delivers accurate, hyperlocal forecasts and environmental insights to help students, faculty, and visitors plan their day with confidence.</p></div>
+       <hr>
+        <div class="header">
+            <h2 style="font-size: 35px;color: rgb(245, 202, 202);">WEATHER WATCH</h2>
+            <div class="Weather-input">
+                <input type="text" name="city" id="city_input" placeholder="Enter city name">
+                <button type="button" id="searchBtn">
+                    <i class="fa-regular fa-search"></i> Search
+                    <button type="button" id="locationBtn">
+                        <i class="bx bx-target-lock"></i> Current location
+                    </button>
+                </button>
+            </div>
+        </div>
+        <div class="weather-data">
+            <div class="weather-left">
+                <div class="card">
+                    <div class="current-weather">
+                        <div class="details">
+                            <p>Now</p>
+                            <h2>____&deg;C</h2>
+                            <p>_______</p>
+                        </div>
+                        <div class="Weather-icon">
+                           <img src="weather-icon-png-11064.png" width="100">
+                       </div>
+                    </div>
+                    <hr>
+                    <div class="card-footer">
+                        <p><i class="fa-light fa-calendar"></i>_______</p>
+                         <p><i class="fa-light fa-location-dot"></i>_______</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>5 Days Forecast</h2>
+                    <div class="day-forecast">
+                        <div class="forecast-item">
+                            <div class="icon-wrapper">
+                                <img src="https://www.freeiconspng.com/uploads/weather-icon-png-5.png"  width="50">
+                                <span>____&deg;C</span>
+                            </div>
+                            <p>____</p>
+                            <p>____</p>
+                        </div>
+                        <div class="forecast-item">
+                            <div class="icon-wrapper">
+                                <img src="https://www.freeiconspng.com/uploads/weather-icon-png-5.png"  width="50">
+                                <span>____&deg;C</span>
+                            </div>
+                            <p>____</p>
+                            <p>____</p>
+                        </div>
+                        <div class="forecast-item">
+                            <div class="icon-wrapper">
+                                <img src="https://www.freeiconspng.com/uploads/weather-icon-png-5.png"  width="50">
+                                <span>____&deg;C</span>
+                            </div>
+                            <p>____</p>
+                            <p>____</p>
+                        </div>
+                        <div class="forecast-item">
+                            <div class="icon-wrapper">
+                                <img src="https://www.freeiconspng.com/uploads/weather-icon-png-5.png"  width="50">
+                                <span>____&deg;C</span>
+                            </div>
+                            <p>____</p>
+                            <p>____</p>
+                        </div>
+                        <div class="forecast-item">
+                            <div class="icon-wrapper">
+                                <img src="https://www.freeiconspng.com/uploads/weather-icon-png-5.png"  width="50">
+                                <span>____&deg;C</span>
+                            </div>
+                            <p>____</p>
+                            <p>____</p>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="weather-right">
+                <h2 style="font-size: 35px;color: rgb(225, 225, 225);">Todays Highlight</h2>
+                <div class="highlights">
+                    <div class="card">
+                        <div class="card-head">
+                            <p>Air quality index</p>
+                            <p class="air-index aqi-1">Good</p>    
+                        </div>  
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <p>Humidity</p>
+                        </div>
+                        <div class="card-item">
+                            <h2 align="left">______%</h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <p>Sunrise & Sunset</p>
+                        </div>
+                        <div>
+                            <p>Sunrise</p>
+                            <h2>________</h2>
+                            <p>Sunset</p>
+                            <h2>________</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</body>
+</html>
