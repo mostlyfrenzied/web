@@ -1,43 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .top-center{
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-        }
-        img {
-            float: left;
-            max-width:300%;
-            height: auto;
-        }
-        </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather app</title>
-    
-    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="weatherstyle.css">
+
+    <!-- Optional: Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+
+    <!-- Optional: Boxicons for location icon -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #083743;
+        }
+
+        .top-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .log {
+            width: 130px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .Weather-input {
+            margin: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px;
+            margin-left: 10px;
+        }
+
+        .card {
+            background: #1b4e59;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-  
-    <img class="log" src="Assam_Engineering_College_logo.png" width="130"> <h1 style="font-size: 50px;" align="center" >ASSAM ENGINEERING COLLEGE</h1></div>
-   <div class="yuhu"><p align="center">Welcome to AEC Weather Watch
-        Stay updated with real-time weather and air quality data, brought to you by Assam Engineering College. Our campus-based monitoring system delivers accurate, hyperlocal forecasts and environmental insights to help students, faculty, and visitors plan their day with confidence.</p></div>
-       <hr>
-        <div class="header">
-            <h2 style="font-size: 35px;color: rgb(245, 202, 202);">WEATHER WATCH</h2>
-            <div class="Weather-input">
-                <input type="text" name="city" id="city_input" placeholder="Enter city name">
-                <button type="button" id="searchBtn">
-                    <i class="fa-regular fa-search"></i> Search
-                    <button type="button" id="locationBtn">
-                        <i class="bx bx-target-lock"></i> Current location
-                    </button>
-                </button>
-            </div>
+
+    <div class="top-center">
+        <img class="log" src="Assam_Engineering_College_logo.png" alt="AEC Logo">
+        <h1 style="font-size: 50px;">ASSAM ENGINEERING COLLEGE</h1>
+    </div>
+
+    <div class="yuhu">
+        <p align="center">Welcome to AEC Weather Watch.<br>
+            Stay updated with real-time weather and air quality data, brought to you by Assam Engineering College.
+        </p>
+    </div>
+
+    <hr>
+
+    <div class="header">
+        <h2 style="font-size: 35px;">WEATHER WATCH</h2>
+        <div class="Weather-input">
+            <input type="text" name="city" id="city_input" placeholder="Enter city name">
+            <button type="button" id="searchBtn"><i class="fas fa-search"></i> Search</button>
+            <button type="button" id="locationBtn"><i class="bx bx-target-lock"></i> Current location</button>
         </div>
+        
+    </div>
+
+    <div id="weather-container" class="weather-data">
+        <!-- Weather data will be injected here by JavaScript -->
+    </div>
+
+    <!-- Link to your script -->
         <div class="weather-data">
             <div class="weather-left">
                 <div class="card">
@@ -131,9 +183,18 @@
                             <h2>________</h2>
                         </div>
                     </div>
+                    <h2>Today at</h2>
+                    <div class="hourly-forecast">
+                        <div class="card">
+                            <p>9 am </p>
+                            <img src="https://www.freeiconspng.com/uploads/weather-icon-png-5.png" width="70">
+                            <p>___&deg;C</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>   
+    </div> 
+    <script src="script.js"></script>  
 </body>
 </html>
