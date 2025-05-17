@@ -7,7 +7,7 @@ const weatherContainer = document.getElementById("weather-container");
 async function getWeatherByCity(city) {
     try {
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}`;
-        const forecastUrl = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={apiKey}`;
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={apiKey}`;
 
         const [weatherRes, forecastRes] = await Promise.all([
             fetch(weatherUrl),
