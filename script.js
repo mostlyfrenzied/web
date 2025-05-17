@@ -1,4 +1,4 @@
-const apiKey = "4bcbafb80febfbd82f2a2f67e2b3d0ea";
+const apiKey = "abb4b9a49325a53996b7fbed158da9ca";
 const weatherContainer = document.getElementById("weather-container");
 const searchBtn = document.getElementById("searchBtn");
 const cityInput = document.getElementById("city_input");
