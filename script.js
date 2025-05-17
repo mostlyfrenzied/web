@@ -1,77 +1,89 @@
 const apiKey = "abb4b9a49325a53996b7fbed158da9ca";
-const weatherContainer = document.getElementById("weather-container");
 const searchBtn = document.getElementById("searchBtn");
+const locationBtn = document.getElementById("locationBtn");
 const cityInput = document.getElementById("city_input");
-const clockDisplay = document.getElementById("clock");
-const notification = document.getElementById("notification");
+const weatherContainer = document.getElementById("weather-container");
 
-let intervalId = null;
-let lastWeather = null;
+async function getWeatherByCity(city) {
+    try {
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
-// Live clock update
-setInterval(() => {
+        const [weatherRes, forecastRes] = await Promise.all([
+            fetch(weatherUrl),
+            fetch(forecastUrl)
+        ]);
+
+        const weatherData = await weatherRes.json();
+        const forecastData = await forecastRes.json();
+
+        displayWeather(weatherData, forecastData);
+    } catch (error) {
+        alert("Error fetching weather data. Please try again.");
+        console.error(error);
+    }
+}
+
+async function getWeatherByLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async position => {
+            const { latitude, longitude } = position.coords;
+
+            const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+            const [weatherRes, forecastRes] = await Promise.all([
+                fetch(weatherUrl),
+                fetch(forecastUrl)
+            ]);
+
+            const weatherData = await weatherRes.json();
+            const forecastData = await forecastRes.json();
+
+            displayWeather(weatherData, forecastData);
+        });
+    } else {
+        alert("Geolocation not supported by this browser.");
+    }
+}
+
+function displayWeather(current, forecast) {
     const now = new Date();
-    clockDisplay.textContent = `Local Time: ${now.toLocaleTimeString()}`;
-}, 1000);
+    const today = now.toDateString();
+
+    weatherContainer.innerHTML = `
+        <div class="card">
+            <h2>${current.name}</h2>
+            <p>${today}</p>
+            <h1>${current.main.temp}°C</h1>
+            <p>${current.weather[0].description}</p>
+            <p>Humidity: ${current.main.humidity}%</p>
+            <p>Sunrise: ${new Date(current.sys.sunrise * 1000).toLocaleTimeString()}</p>
+            <p>Sunset: ${new Date(current.sys.sunset * 1000).toLocaleTimeString()}</p>
+        </div>
+        <div class="card">
+            <h3>5-Day Forecast</h3>
+            <div style="display: flex; flex-wrap: wrap;">
+                ${forecast.list
+                    .filter(item => item.dt_txt.includes("12:00:00"))
+                    .map(item => `
+                        <div style="margin: 10px;">
+                            <p>${new Date(item.dt_txt).toDateString()}</p>
+                            <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="icon">
+                            <p>${item.main.temp}°C</p>
+                        </div>
+                    `)
+                    .join("")}
+            </div>
+        </div>
+    `;
+}
 
 searchBtn.addEventListener("click", () => {
     const city = cityInput.value.trim();
-    if (city) {
-        clearInterval(intervalId);
-        getWeatherData(city);
-        intervalId = setInterval(() => getWeatherData(city), 60000); // 60 seconds
+    if (city !== "") {
+        getWeatherByCity(city);
     }
 });
 
-async function getWeatherData(city) {
-    weatherContainer.innerHTML = `<p>Loading...</p>`;
-    try {
-        const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-        );
-        const data = await response.json();
-        if (data.cod === 200) {
-            checkForChanges(data);
-            displayWeather(data);
-            lastWeather = data;
-        } else {
-            weatherContainer.innerHTML = `<p>City not found: ${data.message}</p>`;
-        }
-    } catch (error) {
-        console.error("Error fetching weather data:", error);
-        weatherContainer.innerHTML = `<p>Failed to load data.</p>`;
-    }
-}
-
-function checkForChanges(newData) {
-    if (!lastWeather) return;
-
-    const tempDiff = Math.abs(newData.main.temp - lastWeather.main.temp);
-    const conditionChanged = newData.weather[0].main !== lastWeather.weather[0].main;
-
-    if (tempDiff >= 2 || conditionChanged) {
-        showNotification("Weather has changed significantly!");
-    }
-}
-
-function showNotification(message) {
-    notification.textContent = message;
-    notification.style.display = "block";
-    setTimeout(() => {
-        notification.style.display = "none";
-    }, 5000);
-}
-
-function displayWeather(data) {
-    const html = `
-        <div class="card">
-            <h2>Current Weather in ${data.name}, ${data.sys.country}</h2>
-            <p><strong>Temperature:</strong> ${data.main.temp}&deg;C</p>
-            <p><strong>Weather:</strong> ${data.weather[0].description}</p>
-            <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
-            <p><strong>Wind:</strong> ${data.wind.speed} m/s</p>
-            <p><em>Last updated: ${new Date().toLocaleTimeString()}</em></p>
-        </div>
-    `;
-    weatherContainer.innerHTML = html;
-}
+locationBtn.addEventListener("click", getWeatherByLocation);
