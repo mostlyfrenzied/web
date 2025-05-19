@@ -162,6 +162,31 @@ button:hover {
 .animate-delay-3 {
     animation-delay: 0.9s;
 }
+    @keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.log {
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.card {
+  animation: fadeIn 1s ease forwards;
+}
+button:hover {
+  box-shadow: 0 0 8px 2px #00ffff;
+  transition: box-shadow 0.3s ease;
+}
+
 
 }
 
