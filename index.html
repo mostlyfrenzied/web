@@ -202,5 +202,13 @@ body {
   </div>
 
   <script src="script.js"></script>
+  <script>
+  const droplets = document.querySelectorAll('.droplet');
+  droplets.forEach(droplet => {
+    droplet.style.left = Math.random() * 100 + 'vw';
+    droplet.style.animationDuration = (Math.random() * 2 + 3) + 's';
+    droplet.style.animationDelay = Math.random() * 5 + 's';
+  });
+</script>
 </body>
 </html>
