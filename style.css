@@ -4,162 +4,189 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #559da8, #5b5b5b);
-    color: #ffffff;
-    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #083743;
+    color: white;
 }
 
-/* Header Section */
 .top-center {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 10px;
 }
 
 .log {
     width: 130px;
-    margin-bottom: 10px;
 }
 
-h1 {
-    font-size: 50px;
-    color: #d7e9fb;
-}
-
-.yuhu {
-    max-width: 800px;
-    margin: 0 auto 20px;
-    padding: 10px;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-/* Weather Input Section */
-.header {
+.yuhu p {
+    padding: 0 20px;
+    font-size: 1rem;
     text-align: center;
-    margin-bottom: 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 .Weather-input {
-    margin-top: 15px;
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 
 input[type="text"] {
     padding: 10px;
-    width: 220px;
-    border: 1px solid #4d4d4d;
-    border-radius: 4px;
-    outline: none;
+    width: 200px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
 }
 
 button {
     padding: 10px 15px;
-    margin-left: 10px;
     border: none;
-    background-color: #0060a0;
+    background-color: #1b4e59;
     color: white;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    font-size: 1rem;
 }
 
 button:hover {
-    background-color: #4a7087;
+    background-color: #247786;
 }
 
-/* Weather Data Section */
 .weather-data {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
     justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.weather-left,
+.weather-right {
+    flex: 1;
+    min-width: 300px;
 }
 
 .card {
-    background-color: rgb(153, 108, 108);
+    background: #1b4e59;
     padding: 20px;
-    width: 300px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.card h2 {
-    margin-bottom: 10px;
-    color: #fbfbfb;
-}
-
-/* Forecast Styling */
-.day-forecast {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    margin: 10px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .forecast-item {
-    flex: 1;
-    min-width: 100px;
-    margin: 10px 5px;
+    display: inline-block;
     text-align: center;
+    margin: 10px;
+    background: #13404a;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100px;
 }
 
-.icon-wrapper img {
-    width: 50px;
-    margin-bottom: 5px;
-}
-
-/* Highlights Section */
-.weather-right {
-    width: 100%;
-    max-width: 400px;
-}
-
-.highlights .card {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.card-head {
+.day-forecast {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.air-index {
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 4px;
-    background-color: #e0ee16;
-    color: #00695c;
+.highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Hourly Forecast */
 .hourly-forecast {
     display: flex;
-    gap: 15px;
-    margin-top: 10px;
     overflow-x: auto;
+    gap: 10px;
+    padding: 10px 0;
 }
 
 .hourly-forecast .card {
-    min-width: 120px;
+    flex: 0 0 auto;
+    width: 100px;
     text-align: center;
-    background-color: #078f96;
+    background: #13404a;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .Weather-input {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .weather-data {
         flex-direction: column;
         align-items: center;
     }
 
+    input[type="text"],
+    button {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .forecast-item {
+        width: 80px;
+    }
+
     .card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .log {
+        width: 100px;
+    }
+
+    h1 {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .forecast-item {
+        width: 100%;
+    }
+
+    .hourly-forecast {
+        gap: 5px;
+    }
+
+    .hourly-forecast .card {
+        width: 80px;
+        font-size: 0.9rem;
+    }
+
+    .Weather-input input[type="text"],
+    .Weather-input button {
         width: 90%;
     }
 }
+
