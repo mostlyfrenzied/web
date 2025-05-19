@@ -1,4 +1,4 @@
-const apiKey = "8b0fd675aa66b485893a61b35853b812";
+const apiKey = "7222f4612b4123ade9532cc64a7dad09";
 const weatherContainer = document.getElementById("weather-container");
 
 // Fixed coordinates for Assam Engineering College
