@@ -54,7 +54,7 @@ function displayWeather(current, forecast) {
         <div class="card">
             <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
             <h3>${today}</h3>
-            <h1>${current.main.temp.toFixed(1)}°C</h1>
+            <h1 class="temperature-display">${current.main.temp.toFixed(1)}°C</h1>
             <p>${current.weather[0].description}</p>
             <p>Humidity: ${current.main.humidity}%</p>
             <p>Sunrise: ${new Date(current.sys.sunrise * 1000).toLocaleTimeString()}</p>
