@@ -6,7 +6,7 @@
     <title>Weather App</title>
 
     <!-- Link to external CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="weatherstyle.css">
 
     <!-- Optional: Font Awesome for icons -->
     <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
@@ -19,46 +19,128 @@
             font-family: Arial, sans-serif;
             margin: 0;
             background: #083743;
+            color: white;
         }
-
+    
         .top-center {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             margin-top: 20px;
+            padding: 10px;
         }
-
+    
         .log {
             width: 130px;
         }
-
+    
         img {
             max-width: 100%;
             height: auto;
         }
-
+    
+        .yuhu p {
+            padding: 0 20px;
+            font-size: 1rem;
+        }
+    
         .Weather-input {
             margin: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
         }
-
+    
         input[type="text"] {
             padding: 10px;
             width: 200px;
+            border-radius: 5px;
+            border: none;
         }
-
+    
         button {
             padding: 10px;
-            margin-left: 10px;
+            border: none;
+            background-color: #1b4e59;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
         }
-
+    
+        .weather-data {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+    
+        .weather-left,
+        .weather-right {
+            flex: 1;
+            min-width: 300px;
+        }
+    
         .card {
             background: #1b4e59;
             padding: 20px;
-            margin: 10px;
+            margin: 10px 0;
             border-radius: 8px;
         }
+    
+        .forecast-item {
+            display: inline-block;
+            text-align: center;
+            margin: 10px;
+        }
+    
+        .highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+    
+        .hourly-forecast {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px 0;
+        }
+    
+        .hourly-forecast .card {
+            flex: 0 0 auto;
+            width: 100px;
+            text-align: center;
+        }
+    
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+    
+            h2 {
+                font-size: 24px;
+            }
+    
+            .Weather-input {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .weather-data {
+                flex-direction: column;
+            }
+    
+            input[type="text"],
+            button {
+                width: 80%;
+                max-width: 300px;
+            }
+        }
     </style>
+    
 </head>
 <body>
 
@@ -90,8 +172,6 @@
     </div>
 
     <!-- Link to your script -->
-    <script src="script.js"></script>
-
         <div class="weather-data">
             <div class="weather-left">
                 <div class="card">
@@ -196,6 +276,7 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div> 
+    <script src="script.js"></script>  
 </body>
 </html>
