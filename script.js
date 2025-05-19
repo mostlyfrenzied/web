@@ -7,6 +7,17 @@ const longitude = 91.6746041874584;
 
 async function getWeatherFixedLocation() {
     try {
+        // Reverse geocoding to verify coordinates
+        const reverseGeocodeUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+        
+        const response = await fetch(reverseGeocodeUrl);
+        if (!response.ok) {
+            throw new Error(`Geocoding API error: ${response.status}`);
+        }
+        
+        const locationData = await response.json();
+        console.log("Location Data:", locationData); // Log the location data
+
         // Current weather data
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
@@ -39,11 +50,12 @@ async function getWeatherFixedLocation() {
 function displayWeather(current, forecast) {
     const today = new Date().toDateString();
 
+    // Display the location name from the weather data
     weatherContainer.innerHTML = `
         <div class="card">
-            <h2>${current.name}</h2>
+            <h2>${current.name}, ${current.sys.country}</h2> <!-- Display city and country -->
             <p>${today}</p>
-            <h1>${current.main.temp}°C</h1>
+            <h1>${current.main.temp.toFixed(1)}°C</h1> <!-- Display temperature with one decimal -->
             <p>${current.weather[0].description}</p>
             <p>Humidity: ${current.main.humidity}%</p>
             <p>Sunrise: ${new Date(current.sys.sunrise * 1000).toLocaleTimeString()}</p>
@@ -57,7 +69,7 @@ function displayWeather(current, forecast) {
                         <div style="margin: 10px;">
                             <p>${item.date}</p>
                             <img src="http://openweathermap.org/img/wn/${item.icon}@2x.png" alt="icon">
-                            <p>${item.temp}°C</p>
+                            <p>${item.temp.toFixed(1)}°C</p> <!-- Display temperature with one decimal -->
                         </div>
                     `)
                     .join("")}
@@ -92,4 +104,3 @@ function getDailyForecast(list) {
 
 // Run on page load
 window.onload = getWeatherFixedLocation;
-
