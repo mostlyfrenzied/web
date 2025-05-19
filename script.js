@@ -1,13 +1,15 @@
 const apiKey = "8b0fd675aa66b485893a61b35853b812";
-const searchBtn = document.getElementById("searchBtn");
-const locationBtn = document.getElementById("locationBtn");
-const cityInput = document.getElementById("city_input");
 const weatherContainer = document.getElementById("weather-container");
 
-async function getWeatherByCity(city) {
+// Fixed coordinates for Assam Engineering College
+const latitude = 26.1433;
+const longitude = 91.7898;
+
+// Function to fetch and display weather data for fixed location
+async function getWeatherFixedLocation() {
     try {
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}`;
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={apiKey}`;
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
         const [weatherRes, forecastRes] = await Promise.all([
             fetch(weatherUrl),
@@ -24,29 +26,7 @@ async function getWeatherByCity(city) {
     }
 }
 
-async function getWeatherByLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async position => {
-            const { latitude, longitude } = position.coords;
-
-            const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-
-            const [weatherRes, forecastRes] = await Promise.all([
-                fetch(weatherUrl),
-                fetch(forecastUrl)
-            ]);
-
-            const weatherData = await weatherRes.json();
-            const forecastData = await forecastRes.json();
-
-            displayWeather(weatherData, forecastData);
-        });
-    } else {
-        alert("Geolocation not supported by this browser.");
-    }
-}
-
+// Function to display current weather and 5-day forecast
 function displayWeather(current, forecast) {
     const now = new Date();
     const today = now.toDateString();
@@ -79,11 +59,5 @@ function displayWeather(current, forecast) {
     `;
 }
 
-searchBtn.addEventListener("click", () => {
-    const city = cityInput.value.trim();
-    if (city !== "") {
-        getWeatherByCity(city);
-    }
-});
-
-locationBtn.addEventListener("click", getWeatherByLocation);
+// Automatically load weather on page load
+window.onload = getWeatherFixedLocation;
