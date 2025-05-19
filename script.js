@@ -8,7 +8,7 @@ const longitude = 91.6746041874584;
 async function getWeatherFixedLocation() {
     try {
         // Current weather data
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={apiKey}`;
 
         // 5-day / 3-hour forecast data
         const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
