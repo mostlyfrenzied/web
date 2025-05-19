@@ -186,6 +186,32 @@ button:hover {
   box-shadow: 0 0 8px 2px #00ffff;
   transition: box-shadow 0.3s ease;
 }
+.animated-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* space between icon and text */
+  font-size: 35px;
+  color: white;
+}
+
+.animated-icon {
+  animation: rotateIcon 3s linear infinite;
+  font-size: 1.5em;
+  color: #00bfff; /* bright color for the icon */
+}
+
+@keyframes rotateIcon {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 
 
 }
