@@ -51,7 +51,7 @@ function displayWeather(current, forecast) {
     const today = new Date().toDateString();
 
     weatherContainer.innerHTML = `
-        <div class="card">
+        <div class="card float-card">
             <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
             <h3>${today}</h3>
             <h1 class="temperature-display">${current.main.temp.toFixed(1)}°C</h1>
