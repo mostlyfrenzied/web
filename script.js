@@ -5,10 +5,12 @@ const weatherContainer = document.getElementById("weather-container");
 const latitude = 26.1433;
 const longitude = 91.7898;
 
-// Function to fetch and display weather data for fixed location
 async function getWeatherFixedLocation() {
     try {
+        // Current weather data
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+        // 5-day / 3-hour forecast data
         const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
         const [weatherRes, forecastRes] = await Promise.all([
@@ -21,15 +23,13 @@ async function getWeatherFixedLocation() {
 
         displayWeather(weatherData, forecastData);
     } catch (error) {
-        alert("Error fetching weather data. Please try again.");
-        console.error(error);
+        console.error("Error fetching weather data:", error);
+        alert("Failed to load weather data. Please check your API key and internet connection.");
     }
 }
 
-// Function to display current weather and 5-day forecast
 function displayWeather(current, forecast) {
-    const now = new Date();
-    const today = now.toDateString();
+    const today = new Date().toDateString();
 
     weatherContainer.innerHTML = `
         <div class="card">
@@ -44,13 +44,12 @@ function displayWeather(current, forecast) {
         <div class="card">
             <h3>5-Day Forecast</h3>
             <div style="display: flex; flex-wrap: wrap;">
-                ${forecast.list
-                    .filter(item => item.dt_txt.includes("12:00:00"))
+                ${getDailyForecast(forecast.list)
                     .map(item => `
                         <div style="margin: 10px;">
-                            <p>${new Date(item.dt_txt).toDateString()}</p>
-                            <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="icon">
-                            <p>${item.main.temp}°C</p>
+                            <p>${item.date}</p>
+                            <img src="http://openweathermap.org/img/wn/${item.icon}@2x.png" alt="icon">
+                            <p>${item.temp}°C</p>
                         </div>
                     `)
                     .join("")}
@@ -59,5 +58,29 @@ function displayWeather(current, forecast) {
     `;
 }
 
-// Automatically load weather on page load
+// Extract one forecast per day around 12:00 PM
+function getDailyForecast(list) {
+    const result = [];
+    const seenDates = new Set();
+
+    for (let i = 0; i < list.length; i++) {
+        const dt = new Date(list[i].dt_txt);
+        const dateStr = dt.toDateString();
+
+        if (dt.getHours() === 12 && !seenDates.has(dateStr)) {
+            seenDates.add(dateStr);
+            result.push({
+                date: dateStr,
+                temp: list[i].main.temp,
+                icon: list[i].weather[0].icon
+            });
+        }
+
+        if (result.length === 5) break;
+    }
+
+    return result;
+}
+
+// Run on page load
 window.onload = getWeatherFixedLocation;
