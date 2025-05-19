@@ -300,7 +300,7 @@ button:hover {
   font-size: 60px;
   font-weight: bold;
   margin: 10px 0;
-  animation: float 3s ease-in-out infinite, glowPulse 4s ease-in-out infinite;
+  animation: float 3s ease-in-out infinite;
 }
 
 
