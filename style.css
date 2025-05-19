@@ -296,6 +296,12 @@ button:hover {
 .card:nth-child(even) {
   animation-delay: 1.5s, 1s;
 }
+.temperature-display {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 10px 0;
+  animation: float 3s ease-in-out infinite, glowPulse 4s ease-in-out infinite;
+}
 
 
 }
