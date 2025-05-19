@@ -15,13 +15,24 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #083743;
-      color: white;
-    }
+   body {
+  background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: white;
+}
 
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
     .top-center {
       display: flex;
       flex-direction: column;
