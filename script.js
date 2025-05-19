@@ -2,8 +2,8 @@ const apiKey = "7222f4612b4123ade9532cc64a7dad09";
 const weatherContainer = document.getElementById("weather-container");
 
 // Fixed coordinates for Assam Engineering College
-const latitude = 26.14287227388668;
-const longitude = 91.6597967797107;
+const latitude = 26.15789628555117;
+const longitude = 91.6746041874584; 
 
 async function getWeatherFixedLocation() {
     try {
