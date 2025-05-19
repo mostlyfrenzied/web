@@ -50,26 +50,25 @@ async function getWeatherFixedLocation() {
 function displayWeather(current, forecast) {
     const today = new Date().toDateString();
 
-    // Display the location name from the weather data
     weatherContainer.innerHTML = `
         <div class="card">
-            <h2>Assam Engineering College,IN</h2> <!-- Display city and country -->
+            <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
             <p>${today}</p>
-            <h1>${current.main.temp.toFixed(1)}°C</h1> <!-- Display temperature with one decimal -->
+            <h1>${current.main.temp.toFixed(1)}°C</h1>
             <p>${current.weather[0].description}</p>
             <p>Humidity: ${current.main.humidity}%</p>
             <p>Sunrise: ${new Date(current.sys.sunrise * 1000).toLocaleTimeString()}</p>
             <p>Sunset: ${new Date(current.sys.sunset * 1000).toLocaleTimeString()}</p>
         </div>
         <div class="card">
-            <h3>5-Day Forecast of Assam Engineering College</h3>
+            <h3>5-Day Forecast - Assam Engineering College</h3>
             <div style="display: flex; flex-wrap: wrap;">
                 ${getDailyForecast(forecast.list)
                     .map(item => `
                         <div style="margin: 10px;">
                             <p>${item.date}</p>
                             <img src="http://openweathermap.org/img/wn/${item.icon}@2x.png" alt="icon">
-                            <p>${item.temp.toFixed(1)}°C</p> <!-- Display temperature with one decimal -->
+                            <p>${item.temp.toFixed(1)}°C</p>
                         </div>
                     `)
                     .join("")}
@@ -77,6 +76,7 @@ function displayWeather(current, forecast) {
         </div>
     `;
 }
+
 
 // Extract one forecast per day around 12:00 PM
 function getDailyForecast(list) {
