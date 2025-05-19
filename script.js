@@ -53,7 +53,7 @@ function displayWeather(current, forecast) {
     // Display the location name from the weather data
     weatherContainer.innerHTML = `
         <div class="card">
-            <h2>Assam Engineering College, ${current.sys.country}</h2> <!-- Display city and country -->
+            <h2>Assam Engineering College,IN</h2> <!-- Display city and country -->
             <p>${today}</p>
             <h1>${current.main.temp.toFixed(1)}°C</h1> <!-- Display temperature with one decimal -->
             <p>${current.weather[0].description}</p>
@@ -62,7 +62,7 @@ function displayWeather(current, forecast) {
             <p>Sunset: ${new Date(current.sys.sunset * 1000).toLocaleTimeString()}</p>
         </div>
         <div class="card">
-            <h3>5-Day Forecast</h3>
+            <h3>5-Day Forecast of Assam Engineering College</h3>
             <div style="display: flex; flex-wrap: wrap;">
                 ${getDailyForecast(forecast.list)
                     .map(item => `
