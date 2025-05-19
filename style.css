@@ -265,13 +265,13 @@ button:hover {
 
 @keyframes glowPulse {
   0% {
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
   50% {
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
   }
   100% {
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -284,16 +284,15 @@ button:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Optional: Slight zoom on hover */
 .card:hover {
   transform: scale(1.03) translateY(-5px);
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
 }
 
-/* Optional: Stagger animation delays */
 .card:nth-child(odd) {
   animation-delay: 0s, 0s;
 }
+
 .card:nth-child(even) {
   animation-delay: 1.5s, 1s;
 }
