@@ -1,4 +1,4 @@
-const apiKey = "7222f4612b4123ade9532cc64a7dad09";
+const apiKey = "022267a673a319a6da4bf15f53706e37";
 const weatherContainer = document.getElementById("weather-container");
 
 // Fixed coordinates for Assam Engineering College
@@ -8,7 +8,7 @@ const longitude = 91.6746041874584;
 async function getWeatherFixedLocation() {
     try {
         // Current weather data
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={apiKey}`;
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
         // 5-day / 3-hour forecast data
         const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
