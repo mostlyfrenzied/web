@@ -1,4 +1,4 @@
-const apiKey = "022267a673a319a6da4bf15f53706e37";
+const apiKey = "8d158ca37bd2b937de0cb23bb5f24c18"; // Replace with your actual API key
 const weatherContainer = document.getElementById("weather-container");
 
 // Fixed coordinates for Assam Engineering College
@@ -8,7 +8,7 @@ const longitude = 91.6746041874584;
 async function getWeatherFixedLocation() {
     try {
         // Current weather data
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
         // 5-day / 3-hour forecast data
         const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
@@ -17,6 +17,14 @@ async function getWeatherFixedLocation() {
             fetch(weatherUrl),
             fetch(forecastUrl)
         ]);
+
+        // Check if the responses are ok
+        if (!weatherRes.ok) {
+            throw new Error(`Weather API error: ${weatherRes.status}`);
+        }
+        if (!forecastRes.ok) {
+            throw new Error(`Forecast API error: ${forecastRes.status}`);
+        }
 
         const weatherData = await weatherRes.json();
         const forecastData = await forecastRes.json();
@@ -84,3 +92,4 @@ function getDailyForecast(list) {
 
 // Run on page load
 window.onload = getWeatherFixedLocation;
+
