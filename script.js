@@ -63,5 +63,79 @@ function displayWeather(current, forecast) {
     `;
 }
 
-// Run on page load
-window.onload = getWeatherFixedLocation;
+window.onload = () => {
+    getWeatherFixedLocation(); // Initial fetch
+    setupAutoRefreshControls(); // Add buttons and logic
+};
+function setupAutoRefreshControls() {
+    let intervalId = null;
+    let countdown = 5;
+    let countdownInterval = null;
+
+    // Create a styled card container like your other cards
+    const controlCard = document.createElement("div");
+    controlCard.className = "card float-card";
+    controlCard.style.textAlign = "center";
+    controlCard.style.marginTop = "20px";
+    controlCard.style.padding = "20px";
+
+    controlCard.innerHTML = `
+        <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
+        <button id="toggle-refresh" style="
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        ">Start Auto-Refresh</button>
+        <p id="countdown" style="
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        ">Auto-refresh is off</p>
+    `;
+
+    document.body.appendChild(controlCard);
+
+    const toggleButton = document.getElementById("toggle-refresh");
+    const countdownDisplay = document.getElementById("countdown");
+
+    toggleButton.addEventListener("click", () => {
+        if (intervalId === null) {
+            startAutoRefresh();
+            toggleButton.textContent = "Stop Auto-Refresh";
+            toggleButton.style.backgroundColor = "#f44336"; // Red
+        } else {
+            stopAutoRefresh();
+            toggleButton.textContent = "Start Auto-Refresh";
+            toggleButton.style.backgroundColor = "#4CAF50"; // Green
+        }
+    });
+
+    function startAutoRefresh() {
+        countdown = 5;
+        countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+
+        intervalId = setInterval(() => {
+            getWeatherFixedLocation();
+            countdown = 5;
+        }, 5000);
+
+        countdownInterval = setInterval(() => {
+            countdown--;
+            countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+        }, 1000);
+    }
+
+    function stopAutoRefresh() {
+        clearInterval(intervalId);
+        clearInterval(countdownInterval);
+        intervalId = null;
+        countdownInterval = null;
+        countdownDisplay.textContent = "Auto-refresh is off";
+    }
+}
+
