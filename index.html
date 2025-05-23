@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Weather App - AEC</title>
+  <title>Weather App</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+
   <style>
     body {
       background: url('aec24.JPEG') no-repeat center center fixed;
       background-size: cover;
       color: white;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
     }
 
     .top-center {
@@ -20,6 +25,7 @@
       flex-direction: column;
       align-items: center;
       margin-top: 20px;
+      padding: 10px;
     }
 
     .log {
@@ -32,10 +38,53 @@
       text-align: center;
     }
 
+    .main-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .map-container {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      height: 400px;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .weather-section {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .weather-data {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .card {
+      background: #1b4e59;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 150px;
+    }
+
     .header {
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
       margin-top: 20px;
     }
 
@@ -55,43 +104,28 @@
       }
     }
 
-    .main-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 20px;
+    .droplets {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
     }
 
-    .map-container {
-      flex: 1;
-      min-width: 300px;
-      max-width: 600px;
+    .droplet {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: drop 5s infinite linear;
     }
 
-    .weather-section {
-      flex: 1;
-      min-width: 300px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card {
-      background: #1b4e59;
-      border-radius: 10px;
-      padding: 20px;
-    }
-
-    .hourly-forecast {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-    }
-
-    .hourly-forecast .card {
-      flex: 0 0 auto;
-      width: 100px;
-      text-align: center;
+    @keyframes drop {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
     }
 
     @media (max-width: 768px) {
@@ -100,19 +134,35 @@
         align-items: center;
       }
 
-      .map-container,
-      .weather-section {
-        width: 100%;
+      .weather-data {
+        flex-direction: column;
       }
     }
   </style>
 </head>
+
 <body>
+  <!-- Animated Droplets Background -->
+  <div class="droplets">
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+  </div>
+
+  <!-- College Header -->
   <div class="top-center">
     <img class="log" src="Assam_Engineering_College_logo.png" alt="AEC Logo" />
     <h1 style="font-size: 50px;">ASSAM ENGINEERING COLLEGE</h1>
   </div>
 
+  <!-- Welcome Note -->
   <div class="yuhu">
     <p>
       Welcome to AEC Weather Watch.<br />
@@ -120,21 +170,20 @@
     </p>
   </div>
 
-  <hr />
+  <hr/>
 
+  <!-- Header -->
   <div class="header">
     <h2 class="animated-header">
-      <i class='bx bx-time-five'></i> WEATHER WATCH
+      <i class='bx bx-time-five animated-icon'></i> WEATHER WATCH
     </h2>
   </div>
 
+  <!-- Main Layout: Map Left, Forecast Right -->
   <div class="main-content">
     <div class="map-container">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.123456789!2d91.65972!3d26.14278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAssam%20Engineering%20College!5e0!3m2!1sen!2sin!4v1234567890"
-        width="100%"
-        height="400"
-        style="border:0;"
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade">
@@ -142,42 +191,21 @@
     </div>
 
     <div class="weather-section">
-      <div class="card" id="current-weather">
-        <h3>Current Weather</h3>
-        <!-- JS content here -->
-      </div>
-
-      <div class="card">
-        <h3>Forecast</h3>
-        <div class="hourly-forecast" id="forecast">
-          <!-- Forecast cards via JS -->
-        </div>
+      <div id="weather-container" class="weather-data">
+        <!-- Forecast cards injected via script.js -->
       </div>
     </div>
   </div>
 
+  <!-- JavaScript -->
+  <script src="script.js"></script>
   <script>
-    // Example JS content
-    document.getElementById("current-weather").innerHTML += `
-      <p>Temperature: 30°C</p>
-      <p>Humidity: 65%</p>
-      <p>Wind: 15 km/h</p>
-    `;
-
-    const forecast = [
-      { hour: "1 PM", temp: "30°C" },
-      { hour: "2 PM", temp: "31°C" },
-      { hour: "3 PM", temp: "32°C" },
-      { hour: "4 PM", temp: "30°C" },
-      { hour: "5 PM", temp: "29°C" }
-    ];
-
-    document.getElementById("forecast").innerHTML = forecast.map(f => `
-      <div class="card">
-        <p>${f.hour}</p>
-        <p>${f.temp}</p>
-      </div>
-    `).join('');
+    const droplets = document.querySelectorAll('.droplet');
+    droplets.forEach(droplet => {
+      droplet.style.left = Math.random() * 100 + 'vw';
+      droplet.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      droplet.style.animationDelay = Math.random() * 5 + 's';
+    });
   </script>
 </body>
 </html>
