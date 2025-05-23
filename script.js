@@ -1,4 +1,6 @@
-const apiKey = "7c12485a133444a89a7165859252105"; // Replace with your WeatherAPI key
+const weatherApiKey = "7c12485a133444a89a7165859252105"; // Your WeatherAPI key
+const openWeatherApiKey = "8d158ca37bd2b937de0cb23bb5f24c18"; // Put your OpenWeatherMap API key here for AQI
+
 const weatherContainer = document.getElementById("weather-container");
 
 // Coordinates for Assam Engineering College
@@ -9,32 +11,58 @@ async function getWeatherFixedLocation() {
     try {
         const query = `${latitude},${longitude}`;
 
-        // Current Weather
-        const currentUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${query}`;
+        // Current Weather (WeatherAPI)
+        const currentUrl = `https://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${query}`;
 
-        // 5-Day Forecast
-        const forecastUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${query}&days=5`;
+        // 5-Day Forecast (WeatherAPI)
+        const forecastUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${query}&days=5`;
 
-        const [currentRes, forecastRes] = await Promise.all([
+        // AQI (OpenWeatherMap Air Pollution API)
+        const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
+
+        // Fetch all three in parallel
+        const [currentRes, forecastRes, aqiRes] = await Promise.all([
             fetch(currentUrl),
-            fetch(forecastUrl)
+            fetch(forecastUrl),
+            fetch(aqiUrl)
         ]);
 
         if (!currentRes.ok) throw new Error(`Current API error: ${currentRes.status}`);
         if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
+        if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
 
         const currentData = await currentRes.json();
         const forecastData = await forecastRes.json();
+        const aqiData = await aqiRes.json();
 
-        displayWeather(currentData, forecastData);
+        displayWeather(currentData, forecastData, aqiData);
     } catch (error) {
-        console.error("Error fetching WeatherAPI data:", error);
-        alert("Failed to load data. Please check your API key and internet connection.");
+        console.error("Error fetching data:", error);
+        alert("Failed to load data. Please check your API keys and internet connection.");
     }
 }
 
-function displayWeather(current, forecast) {
+function displayWeather(current, forecast, aqiData) {
     const today = new Date().toDateString();
+
+    // AQI value and mapping
+    const aqi = aqiData.list[0].main.aqi;
+
+    const aqiText = {
+        1: "Good",
+        2: "Fair",
+        3: "Moderate",
+        4: "Poor",
+        5: "Very Poor"
+    };
+
+    const aqiColor = {
+        1: "#009966",
+        2: "#ffde33",
+        3: "#ff9933",
+        4: "#cc0033",
+        5: "#660099"
+    };
 
     weatherContainer.innerHTML = `
         <div class="card float-card">
@@ -60,6 +88,13 @@ function displayWeather(current, forecast) {
                     .join("")}
             </div>
         </div>
+        <div class="card">
+            <h3>Air Quality Index (AQI)</h3>
+            <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
+                ${aqiText[aqi]} (AQI: ${aqi})
+            </p>
+            <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
+        </div>
     `;
 }
 
@@ -67,6 +102,7 @@ window.onload = () => {
     getWeatherFixedLocation(); // Initial fetch
     setupAutoRefreshControls(); // Add buttons and logic
 };
+
 function setupAutoRefreshControls() {
     let intervalId = null;
     let countdown = 5;
@@ -138,4 +174,3 @@ function setupAutoRefreshControls() {
         countdownDisplay.textContent = "Auto-refresh is off";
     }
 }
-
