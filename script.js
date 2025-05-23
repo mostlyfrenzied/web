@@ -1,4 +1,4 @@
-const openWeatherApiKey = "022267a673a319a6da4bf15f53706e37";
+const openWeatherApiKey = "89e798baf769942793533270585500b2";
 
 // Coordinates for Assam Engineering College
 const latitude = 26.15789628555117;
