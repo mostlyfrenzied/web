@@ -13,21 +13,21 @@ const weatherContainer = document.getElementById("weather-container");
 async function getWeatherFixedLocation() {
     try {
         // Fetch current weather from AccuWeather
-        const accuUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&details=true`;
+        const accuUrl = https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&details=true;
         const accuRes = await fetch(accuUrl);
-        if (!accuRes.ok) throw new Error(`AccuWeather API error: ${accuRes.status}`);
+        if (!accuRes.ok) throw new Error(AccuWeather API error: ${accuRes.status});
         const [accuData] = await accuRes.json();
 
         // Fetch 5-day forecast from OpenWeatherMap
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+        const forecastUrl = https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric;
         const forecastRes = await fetch(forecastUrl);
-        if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
+        if (!forecastRes.ok) throw new Error(Forecast API error: ${forecastRes.status});
         const forecastData = await forecastRes.json();
 
         // Fetch AQI data from OpenWeatherMap
-        const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
+        const aqiUrl = https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey};
         const aqiRes = await fetch(aqiUrl);
-        if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
+        if (!aqiRes.ok) throw new Error(AQI API error: ${aqiRes.status});
         const aqiData = await aqiRes.json();
 
         displayWeather(accuData, forecastData, aqiData);
@@ -57,11 +57,11 @@ function displayWeather(current, forecast, aqiData) {
     };
 
     function getOpenWeatherIconUrl(iconCode) {
-        return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        return https://openweathermap.org/img/wn/${iconCode}@2x.png;
     }
 
     function getAccuWeatherIconUrl(iconCode) {
-        return `https://developer.accuweather.com/sites/default/files/${String(iconCode).padStart(2, '0')}-s.png`;
+        return https://developer.accuweather.com/sites/default/files/${String(iconCode).padStart(2, '0')}-s.png;
     }
 
     const dailyForecasts = {};
@@ -88,46 +88,40 @@ function displayWeather(current, forecast, aqiData) {
             description: middayForecast.weather[0].description
         };
     });
-weatherContainer.innerHTML = `
-    <div class="main-weather-layout" style="display: flex; gap: 20px; align-items: flex-start;">
-        <div class="left-column" style="flex: 2;">
-            <div class="card float-card">
-                <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
-                <h3>${today}</h3>
-                <h1 class="temperature-display" style="font-size: 4rem;">${current.Temperature.Metric.Value}°C</h1>
-                <p>${current.WeatherText}</p>
-                <p>Humidity: ${current.RelativeHumidity}%</p>
-                <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
-                <img src="${getAccuWeatherIconUrl(current.WeatherIcon)}" alt="weather icon" />
-            </div>
 
-            <div class="card">
-                <h3>5-Day Forecast - Assam Engineering College</h3>
-                <div class="forecast-days" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    ${forecastDays.map(day => `
-                        <div class="forecast-day-card" style="text-align:center;">
-                            <p class="forecast-date">${new Date(day.date).toDateString()}</p>
-                            <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
-                            <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
-                            <p style="text-transform: capitalize;">${day.description}</p>
-                        </div>
-                    `).join("")}
-                </div>
+    weatherContainer.innerHTML = 
+        <div class="card float-card">
+            <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
+            <h3>${today}</h3>
+            <h1 class="temperature-display">${current.Temperature.Metric.Value}°C</h1>
+            <p>${current.WeatherText}</p>
+            <p>Humidity: ${current.RelativeHumidity}%</p>
+            <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
+            <img src="${getAccuWeatherIconUrl(current.WeatherIcon)}" alt="weather icon" />
+        </div>
+
+        <div class="card">
+            <h3>5-Day Forecast - Assam Engineering College</h3>
+            <div class="forecast-days" style="display: flex; gap: 10px;">
+                ${forecastDays.map(day => 
+                    <div class="forecast-day-card" style="text-align:center;">
+                        <p class="forecast-date">${new Date(day.date).toDateString()}</p>
+                        <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
+                        <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
+                        <p style="text-transform: capitalize;">${day.description}</p>
+                    </div>
+                ).join("")}
             </div>
         </div>
 
-        <div class="right-column" style="flex: 1;">
-            <div class="card">
-                <h3>Air Quality Index (AQI)</h3>
-                <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
-                    ${aqiText[aqi]} (AQI: ${aqi})
-                </p>
-                <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
-            </div>
+        <div class="card">
+            <h3>Air Quality Index (AQI)</h3>
+            <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
+                ${aqiText[aqi]} (AQI: ${aqi})
+            </p>
+            <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
         </div>
-    </div>
-`;
-   
+    ;
 }
 
 function setupAutoRefreshControls() {
@@ -141,11 +135,11 @@ function setupAutoRefreshControls() {
     controlCard.style.marginTop = "20px";
     controlCard.style.padding = "20px";
 
-    controlCard.innerHTML = `
+    controlCard.innerHTML = 
         <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
         <button id="toggle-refresh" class="auto-refresh-button" style="background-color:#0099cc; color:#fff; border:none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Start Auto-Refresh</button>
         <p id="countdown" style="font-size: 14px; color: #555; margin-top: 10px;">Auto-refresh is off</p>
-    `;
+    ;
 
     document.body.appendChild(controlCard);
 
@@ -166,7 +160,7 @@ function setupAutoRefreshControls() {
 
     function startAutoRefresh() {
         countdown = 10;
-        countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+        countdownDisplay.textContent = Next update in ${countdown} seconds;
 
         intervalId = setInterval(() => {
             getWeatherFixedLocation();
@@ -175,7 +169,7 @@ function setupAutoRefreshControls() {
 
         countdownInterval = setInterval(() => {
             countdown--;
-            countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+            countdownDisplay.textContent = Next update in ${countdown} seconds;
         }, 1000);
     }
 
@@ -191,4 +185,4 @@ function setupAutoRefreshControls() {
 window.onload = () => {
     getWeatherFixedLocation();
     setupAutoRefreshControls();
-};
+}; 
