@@ -15,7 +15,7 @@ img {
   height: auto;
 }
 
-/* Animated and Enlarged College Title */
+/* Enlarged and Animated College Title (No Glow) */
 .college-title {
   font-size: 70px;
   text-align: center;
@@ -23,7 +23,6 @@ img {
   margin: 20px 0;
   line-height: 1.2;
   color: #ffffff;
-  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
 }
 
 .animated-college-title {
@@ -38,10 +37,9 @@ img {
   }
   100% {
     opacity: 1;
-    transform: scale(1.1) translateY(0);
+    transform: scale(1.05) translateY(0);
   }
 }
-
 
 /* Logo animation */
 .log {
@@ -239,7 +237,7 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
   padding: 20px;
 }
 
@@ -307,6 +305,3 @@ hr {
     width: 90%;
   }
 }
-
-
-
