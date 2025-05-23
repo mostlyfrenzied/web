@@ -1,5 +1,5 @@
 // Replace with your actual API keys
-const accuweatherApiKey = "RpRlHf0IzBICaHbpAynyrbG2V1jlIRCi";
+const accuweatherApiKey = "XDrgqVwN8GEi6zKtqTrcIHfPGe019ClP";
 const openWeatherApiKey = "022267a673a319a6da4bf15f53706e37";
 
 // Coordinates for Assam Engineering College
