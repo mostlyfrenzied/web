@@ -17,7 +17,7 @@ img {
 
 /* Enlarged and Animated College Title (No Glow) */
 .college-title {
-  font-size: 70px;
+  font-size: 50px;
   text-align: center;
   font-weight: bold;
   margin: 20px 0;
@@ -129,12 +129,18 @@ button:hover {
 
 /* Forecast Cards */
 .weather-data {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  background: #1b4e59;
   padding: 20px;
+  border-radius: 12px;
+  width: 200px;              /* Set a fixed width */
+  height: 200px;             /* Set a fixed height */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .card {
   background: #1b4e59;
