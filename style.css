@@ -38,7 +38,7 @@ body {
   padding: 20px;
 }
 
-.map-container {
+.map-embed {
   flex: 1;
   min-width: 300px;
   max-width: 500px;
