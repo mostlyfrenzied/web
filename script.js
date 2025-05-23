@@ -1,5 +1,5 @@
 const weatherApiKey = "7c12485a133444a89a7165859252105"; // Your WeatherAPI key
-const openWeatherApiKey = "8d158ca37bd2b937de0cb23bb5f24c18"; // Put your OpenWeatherMap API key here for AQI
+const openWeatherApiKey = "8d158ca37bd2b937de0cb23bb5f24c18"; // Your OpenWeatherMap API key
 
 const weatherContainer = document.getElementById("weather-container");
 
@@ -74,20 +74,22 @@ function displayWeather(current, forecast, aqiData) {
             <p>Sunrise: ${forecast.forecast.forecastday[0].astro.sunrise}</p>
             <p>Sunset: ${forecast.forecast.forecastday[0].astro.sunset}</p>
         </div>
+
         <div class="card">
             <h3>5-Day Forecast - Assam Engineering College</h3>
-            <div style="display: flex; flex-wrap: wrap;">
+            <div class="forecast-days">
                 ${forecast.forecast.forecastday
                     .map(day => `
-                        <div style="margin: 10px; text-align: center;">
-                            <p>${day.date}</p>
-                            <img src="https:${day.day.condition.icon}" alt="icon">
-                            <p>${day.day.avgtemp_c}°C</p>
+                        <div class="forecast-day-card">
+                            <p class="forecast-date">${day.date}</p>
+                            <img class="forecast-icon" src="https:${day.day.condition.icon}" alt="icon" />
+                            <p class="forecast-temp">${day.day.avgtemp_c}°C</p>
                         </div>
                     `)
                     .join("")}
             </div>
         </div>
+
         <div class="card">
             <h3>Air Quality Index (AQI)</h3>
             <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
@@ -108,7 +110,7 @@ function setupAutoRefreshControls() {
     let countdown = 5;
     let countdownInterval = null;
 
-    // Create a styled card container like your other cards
+    // Create a styled card container
     const controlCard = document.createElement("div");
     controlCard.className = "card float-card";
     controlCard.style.textAlign = "center";
@@ -117,21 +119,8 @@ function setupAutoRefreshControls() {
 
     controlCard.innerHTML = `
         <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
-        <button id="toggle-refresh" style="
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-        ">Start Auto-Refresh</button>
-        <p id="countdown" style="
-            font-size: 14px;
-            color: #555;
-            margin-top: 10px;
-        ">Auto-refresh is off</p>
+        <button id="toggle-refresh" class="auto-refresh-button">Start Auto-Refresh</button>
+        <p id="countdown" style="font-size: 14px; color: #555; margin-top: 10px;">Auto-refresh is off</p>
     `;
 
     document.body.appendChild(controlCard);
@@ -147,7 +136,7 @@ function setupAutoRefreshControls() {
         } else {
             stopAutoRefresh();
             toggleButton.textContent = "Start Auto-Refresh";
-            toggleButton.style.backgroundColor = "#4CAF50"; // Green
+            toggleButton.style.backgroundColor = "#0099cc"; // Blue (matches button style)
         }
     });
 
