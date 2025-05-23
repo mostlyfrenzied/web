@@ -4,8 +4,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-/* Body and background */
 body {
   background: url('aec24.JPEG') no-repeat center center fixed;
   background-size: cover;
@@ -13,12 +11,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
 }
 
-/* Logo and Title */
 .top-center {
   display: flex;
   flex-direction: column;
@@ -29,78 +23,72 @@ body {
 
 .log {
   width: 130px;
-  animation: float 3s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.college-title {
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  color: #ffffff;
-  margin-top: 15px;
-  line-height: 1.1;
-  animation: fadeScaleIn 1.5s ease forwards;
-  opacity: 0;
-}
-
-.animated-college-title {
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadeScaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) translateY(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* Welcome note */
 .yuhu p {
   padding: 0 20px;
   font-size: 1rem;
   text-align: center;
-  margin-top: 10px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-/* Divider */
-hr {
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  margin: 30px auto;
-  max-width: 700px;
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
 }
 
-/* Header */
+.map-container {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  height: 400px;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.weather-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.weather-data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  background: #1b4e59;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 150px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.float-card {
+  min-width: 300px;
+}
+
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   margin-top: 20px;
 }
 
 .animated-header {
   font-size: 35px;
-  animation: fadeInSlide 1s ease forwards;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: white;
+  animation: fadeInSlide 1s ease-out forwards;
 }
 
 @keyframes fadeInSlide {
@@ -114,101 +102,11 @@ hr {
   }
 }
 
-/* Animated icon inside header */
-.animated-icon {
-  animation: rotateIcon 3s linear infinite;
-  font-size: 1.5em;
-  color: #00bfff;
-}
-
-@keyframes rotateIcon {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(15deg);
-  }
-}
-
-/* Main Layout */
-.main-content {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: flex-start; /* Align top */
-  max-width: 1200px;
-  margin: 0 auto 40px auto;
-}
-
-/* Map container */
-.map-container {
-  flex: 1 1 350px;
-  max-width: 500px;
-  min-width: 300px;
-  height: 400px;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-.map-container iframe {
+.droplets {
+  position: absolute;
   width: 100%;
   height: 100%;
-  border: none;
-  display: block;
-}
-
-/* Weather section */
-.weather-section {
-  flex: 2 1 600px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-width: 300px;
-  height: 400px; /* Match map height */
-}
-
-/* Weather cards container */
-.weather-data {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  overflow-y: auto;
-}
-
-/* Individual weather cards */
-.card {
-  background: #1b4e59;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  min-width: 150px;
-  max-width: 180px;
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.05) translateY(-5px);
-  box-shadow: 0 0 20px rgba(0, 191, 255, 0.7);
-}
-
-/* Droplets background */
-.droplets {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
-  pointer-events: none;
   z-index: -1;
 }
 
@@ -216,56 +114,91 @@ hr {
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   animation: drop 5s infinite linear;
 }
 
 @keyframes drop {
-  0% {
-    transform: translateY(-20px);
-    opacity: 1;
-  }
-  100% {
+  to {
     transform: translateY(100vh);
     opacity: 0;
   }
 }
 
-/* Responsive */
+/* Forecast cards container */
+.forecast-days {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Single forecast day card */
+.forecast-day-card {
+  background-color: #2c6a72;
+  border-radius: 12px;
+  padding: 10px 15px;
+  width: 100px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+
+.forecast-day-card:hover {
+  transform: scale(1.1);
+}
+
+.forecast-date {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.forecast-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 6px;
+}
+
+.forecast-temp {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Auto-refresh button styling */
+.auto-refresh-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0099cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.auto-refresh-button:hover {
+  background-color: #007399;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
     align-items: center;
   }
 
-  .map-container,
-  .weather-section {
-    height: auto;
-    max-width: 100%;
+  .weather-data {
+    flex-direction: column;
   }
 
-  .weather-section {
-    min-width: unset;
-  }
-  
-  .card {
-    min-width: 80%;
-    max-width: 80%;
-    height: auto;
+  .forecast-days {
+    justify-content: center;
   }
 }
 
-@media (max-width: 480px) {
-  .college-title {
-    font-size: 32px;
-  }
-
-  .animated-header {
-    font-size: 24px;
-  }
-
-  .log {
-    width: 100px;
-  }
-}
