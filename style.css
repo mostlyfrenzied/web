@@ -320,6 +320,21 @@ button:hover {
   flex: 2;
   min-width: 300px;
 }
+.animated-college-title {
+  animation: fadeScaleIn 1.5s ease-out forwards;
+  opacity: 0; /* Start hidden */
+}
+
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
 
 
 
