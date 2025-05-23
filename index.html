@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Weather App - AEC</title>
-  <link rel="stylesheet" href="style.css" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>
     body {
@@ -20,7 +19,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
       margin-top: 20px;
     }
 
@@ -58,63 +56,53 @@
     }
 
     .main-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto;
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
       padding: 20px;
     }
 
     .map-container {
-      grid-column: 1 / span 2;
-      display: flex;
-      justify-content: center;
+      flex: 1;
+      min-width: 300px;
+      max-width: 600px;
     }
 
-    .weather-container {
-      grid-column: 1 / span 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .weather-section {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
       gap: 20px;
     }
 
-    .weather-left, .weather-right {
+    .card {
       background: #1b4e59;
       border-radius: 10px;
       padding: 20px;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-
-    .forecast-item {
-      text-align: center;
-    }
-
     .hourly-forecast {
       display: flex;
-      gap: 10px;
       overflow-x: auto;
-      padding-top: 10px;
+      gap: 10px;
     }
 
     .hourly-forecast .card {
       flex: 0 0 auto;
       width: 100px;
+      text-align: center;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .main-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: center;
       }
 
-      .weather-container {
-        grid-template-columns: 1fr;
+      .map-container,
+      .weather-section {
+        width: 100%;
       }
     }
   </style>
@@ -144,7 +132,7 @@
     <div class="map-container">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.123456789!2d91.65972!3d26.14278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAssam%20Engineering%20College!5e0!3m2!1sen!2sin!4v1234567890"
-        width="600"
+        width="100%"
         height="400"
         style="border:0;"
         allowfullscreen=""
@@ -153,41 +141,39 @@
       </iframe>
     </div>
 
-    <div class="weather-container">
-      <div class="weather-left">
+    <div class="weather-section">
+      <div class="card" id="current-weather">
         <h3>Current Weather</h3>
-        <div class="card" id="current-weather">
-          <!-- JS will inject content here -->
-        </div>
+        <!-- JS content here -->
       </div>
 
-      <div class="weather-right">
+      <div class="card">
         <h3>Forecast</h3>
         <div class="hourly-forecast" id="forecast">
-          <!-- JS will inject forecast cards here -->
+          <!-- Forecast cards via JS -->
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Dummy JS Example for illustration
-    document.getElementById("current-weather").innerHTML = `
+    // Example JS content
+    document.getElementById("current-weather").innerHTML += `
       <p>Temperature: 30°C</p>
-      <p>Humidity: 70%</p>
-      <p>Wind: 10 km/h</p>
+      <p>Humidity: 65%</p>
+      <p>Wind: 15 km/h</p>
     `;
 
-    const forecastData = [
-      { hour: '1PM', temp: '30°C' },
-      { hour: '2PM', temp: '31°C' },
-      { hour: '3PM', temp: '32°C' },
-      { hour: '4PM', temp: '30°C' },
-      { hour: '5PM', temp: '29°C' },
+    const forecast = [
+      { hour: "1 PM", temp: "30°C" },
+      { hour: "2 PM", temp: "31°C" },
+      { hour: "3 PM", temp: "32°C" },
+      { hour: "4 PM", temp: "30°C" },
+      { hour: "5 PM", temp: "29°C" }
     ];
 
-    document.getElementById("forecast").innerHTML = forecastData.map(f => `
-      <div class="card forecast-item">
+    document.getElementById("forecast").innerHTML = forecast.map(f => `
+      <div class="card">
         <p>${f.hour}</p>
         <p>${f.temp}</p>
       </div>
