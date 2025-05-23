@@ -27,7 +27,7 @@ img {
 }
 
 .animated-college-title {
-  animation: fadeScaleIn 1.5s ease-out forwards, pulseGlow 3s infinite ease-in-out 1.5s;
+  animation: fadeScaleIn 1.5s ease-out forwards;
   opacity: 0;
 }
 
@@ -42,16 +42,6 @@ img {
   }
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    transform: scale(1.1);
-    text-shadow: 0 0 10px #00ffff;
-  }
-  50% {
-    transform: scale(1.13);
-    text-shadow: 0 0 20px #00ffff;
-  }
-}
 
 /* Logo animation */
 .log {
