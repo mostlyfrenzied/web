@@ -93,7 +93,7 @@ function displayWeather(current, forecast, aqiData) {
         <div class="card float-card">
             <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
             <h3>${today}</h3>
-            <h1 class="temperature-display">${current.Temperature.Metric.Value}°C</h1>
+            <h1 class="temperature-display" style="font-size: 4rem;">${current.Temperature.Metric.Value}°C</h1>
             <p>${current.WeatherText}</p>
             <p>Humidity: ${current.RelativeHumidity}%</p>
             <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
