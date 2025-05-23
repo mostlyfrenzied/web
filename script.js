@@ -1,4 +1,4 @@
-const weatherApiKey = "7c12485a133444a89a7165859252105"; // Your WeatherAPI key
+const weatherApiKey = "V7AVf2vyGDyAi7CcxprQrKc5fsczfEeX"; // Your WeatherAPI key
 const openWeatherApiKey = "8d158ca37bd2b937de0cb23bb5f24c18"; // Your OpenWeatherMap API key
 
 const weatherContainer = document.getElementById("weather-container");
