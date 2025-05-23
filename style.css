@@ -205,6 +205,60 @@ body {
     font-weight: bold;
     margin: 10px 0;
 }
+.main-weather-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.left-column {
+  flex: 2;
+  min-width: 300px;
+}
+
+.right-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Forecast cards styling */
+.forecast-days {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.forecast-day-card {
+  text-align: center;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1 1 120px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Increase temperature font size */
+.temperature-display {
+  font-size: 4rem; /* bigger font size */
+  font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .main-weather-layout {
+    flex-direction: column;
+  }
+
+  .right-column {
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .forecast-days {
+    justify-content: center;
+  }
+}
 
 }
 
