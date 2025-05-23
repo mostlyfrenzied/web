@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Weather App</title>
-
-  <!-- External CSS (if any) -->
+  <title>Weather App - AEC</title>
   <link rel="stylesheet" href="style.css" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
-
   <style>
     body {
       background: url('aec24.JPEG') no-repeat center center fixed;
@@ -26,16 +22,10 @@
       align-items: center;
       text-align: center;
       margin-top: 20px;
-      padding: 10px;
     }
 
     .log {
       width: 130px;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
     }
 
     .yuhu p {
@@ -44,96 +34,18 @@
       text-align: center;
     }
 
-    .Weather-input {
-      margin: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    input[type="text"] {
-      padding: 10px;
-      width: 200px;
-      border-radius: 5px;
-      border: none;
-    }
-
-    button {
-      padding: 10px;
-      border: none;
-      background-color: #1b4e59;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .main-content {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .map-container {
-      flex: 1;
-      min-width: 300px;
-      max-width: 600px;
-    }
-
-    .weather-container {
-      flex: 2;
-      min-width: 300px;
-    }
-
-    .weather-data {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .weather-left,
-    .weather-right {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .card {
-      background: #1b4e59;
-      padding: 20px;
-      margin: 10px 0;
-      border-radius: 8px;
-    }
-
-    .forecast-item {
-      display: inline-block;
-      text-align: center;
-      margin: 10px;
-    }
-
-    .highlights {
+    .header {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      align-items: center;
+      margin-top: 20px;
     }
 
-    .hourly-forecast {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 10px 0;
+    .animated-header {
+      font-size: 35px;
+      animation: fadeInSlide 1s ease-out forwards;
     }
 
-    .hourly-forecast .card {
-      flex: 0 0 auto;
-      width: 100px;
-      text-align: center;
-    }
-
-    /* Animation */
     @keyframes fadeInSlide {
       0% {
         opacity: 0;
@@ -145,73 +57,69 @@
       }
     }
 
-    .header {
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .map-container {
+      grid-column: 1 / span 2;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+    }
+
+    .weather-container {
+      grid-column: 1 / span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .weather-left, .weather-right {
+      background: #1b4e59;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .forecast-item {
       text-align: center;
-      margin-top: 20px;
     }
 
-    .animated-header {
-      font-size: 35px;
-      animation: fadeInSlide 1s ease-out forwards;
+    .hourly-forecast {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-top: 10px;
     }
 
+    .hourly-forecast .card {
+      flex: 0 0 auto;
+      width: 100px;
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 32px;
-      }
-
-      h2 {
-        font-size: 24px;
-      }
-
-      .Weather-input {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .weather-data {
-        flex-direction: column;
-      }
-
-      input[type="text"],
-      button {
-        width: 80%;
-        max-width: 300px;
-      }
-
       .main-content {
-        flex-direction: column;
-        align-items: center;
+        grid-template-columns: 1fr;
+      }
+
+      .weather-container {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
-
 <body>
-  <div class="droplets">
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-  </div>
-
   <div class="top-center">
     <img class="log" src="Assam_Engineering_College_logo.png" alt="AEC Logo" />
     <h1 style="font-size: 50px;">ASSAM ENGINEERING COLLEGE</h1>
@@ -224,17 +132,16 @@
     </p>
   </div>
 
-  <hr/>
+  <hr />
 
   <div class="header">
     <h2 class="animated-header">
-      <i class='bx bx-time-five animated-icon'></i> WEATHER WATCH
+      <i class='bx bx-time-five'></i> WEATHER WATCH
     </h2>
   </div>
 
   <div class="main-content">
     <div class="map-container">
-      <!-- Replace the src URL below with the actual embed link from Google Maps for Assam Engineering College -->
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.123456789!2d91.65972!3d26.14278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAssam%20Engineering%20College!5e0!3m2!1sen!2sin!4v1234567890"
         width="600"
@@ -247,20 +154,44 @@
     </div>
 
     <div class="weather-container">
-      <div id="weather-container" class="weather-data">
-        <!-- Weather data will be injected here -->
+      <div class="weather-left">
+        <h3>Current Weather</h3>
+        <div class="card" id="current-weather">
+          <!-- JS will inject content here -->
+        </div>
+      </div>
+
+      <div class="weather-right">
+        <h3>Forecast</h3>
+        <div class="hourly-forecast" id="forecast">
+          <!-- JS will inject forecast cards here -->
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
   <script>
-    const droplets = document.querySelectorAll('.droplet');
-    droplets.forEach(droplet => {
-      droplet.style.left = Math.random() * 100 + 'vw';
-      droplet.style.animationDuration = (Math.random() * 2 + 3) + 's';
-      droplet.style.animationDelay = Math.random() * 5 + 's';
-    });
+    // Dummy JS Example for illustration
+    document.getElementById("current-weather").innerHTML = `
+      <p>Temperature: 30°C</p>
+      <p>Humidity: 70%</p>
+      <p>Wind: 10 km/h</p>
+    `;
+
+    const forecastData = [
+      { hour: '1PM', temp: '30°C' },
+      { hour: '2PM', temp: '31°C' },
+      { hour: '3PM', temp: '32°C' },
+      { hour: '4PM', temp: '30°C' },
+      { hour: '5PM', temp: '29°C' },
+    ];
+
+    document.getElementById("forecast").innerHTML = forecastData.map(f => `
+      <div class="card forecast-item">
+        <p>${f.hour}</p>
+        <p>${f.temp}</p>
+      </div>
+    `).join('');
   </script>
 </body>
 </html>
