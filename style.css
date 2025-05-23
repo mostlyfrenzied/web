@@ -200,5 +200,11 @@ body {
   .forecast-days {
     justify-content: center;
   }
+  .temperature-display {
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
 }
 
