@@ -1,4 +1,6 @@
 const openWeatherApiKey = "89e798baf769942793533270585500b2";
+const accuWeatherApiKey = "XDrgqVwN8GEi6zKtqTrcIHfPGe019ClP"; // Replace with your real AccuWeather API key
+const locationKey = "186893"; // Replace with actual AccuWeather location key for Assam Engineering College
 
 // Coordinates for Assam Engineering College
 const latitude = 26.15789628555117;
@@ -7,40 +9,37 @@ const longitude = 91.6746041874584;
 // DOM element to display weather information
 const weatherContainer = document.getElementById("weather-container");
 
-// Fetch weather, forecast, and AQI data from OpenWeatherMap
+// Fetch weather, forecast, and AQI data
 async function getWeatherFixedLocation() {
     try {
-        // Fetch current weather
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
-        const weatherRes = await fetch(weatherUrl);
-        if (!weatherRes.ok) throw new Error(`Weather API error: ${weatherRes.status}`);
-        const weatherData = await weatherRes.json();
+        // Fetch current weather from AccuWeather
+        const accuUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&details=true`;
+        const accuRes = await fetch(accuUrl);
+        if (!accuRes.ok) throw new Error(`AccuWeather API error: ${accuRes.status}`);
+        const [accuData] = await accuRes.json();
 
-        // Fetch 5-day forecast (3-hour intervals)
+        // Fetch 5-day forecast from OpenWeatherMap
         const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
         const forecastRes = await fetch(forecastUrl);
         if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
         const forecastData = await forecastRes.json();
 
-        // Fetch AQI data
+        // Fetch AQI data from OpenWeatherMap
         const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
         const aqiRes = await fetch(aqiUrl);
         if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
         const aqiData = await aqiRes.json();
 
-        // Display everything
-        displayWeather(weatherData, forecastData, aqiData);
+        displayWeather(accuData, forecastData, aqiData);
     } catch (error) {
         console.error("Error fetching weather data:", error);
         alert("Failed to load weather data. Please check API keys or network.");
     }
 }
 
-// Display data function
 function displayWeather(current, forecast, aqiData) {
     const today = new Date().toDateString();
 
-    // AQI mapping from OpenWeatherMap (1 to 5)
     const aqi = aqiData.list[0].main.aqi;
     const aqiText = {
         1: "Good",
@@ -57,12 +56,14 @@ function displayWeather(current, forecast, aqiData) {
         5: "#660099"
     };
 
-    // OpenWeatherMap icon URL helper
-    function getIconUrl(iconCode) {
+    function getOpenWeatherIconUrl(iconCode) {
         return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     }
 
-    // Group forecast by day (show 5 days)
+    function getAccuWeatherIconUrl(iconCode) {
+        return `https://developer.accuweather.com/sites/default/files/${String(iconCode).padStart(2, '0')}-s.png`;
+    }
+
     const dailyForecasts = {};
     forecast.list.forEach(item => {
         const dateStr = item.dt_txt.split(" ")[0];
@@ -72,13 +73,11 @@ function displayWeather(current, forecast, aqiData) {
         dailyForecasts[dateStr].push(item);
     });
 
-    // Reduce to one forecast per day (e.g. midday)
     const forecastDays = Object.keys(dailyForecasts).slice(0, 5).map(dateStr => {
-        // Pick the forecast closest to 12:00 PM
         const dayForecasts = dailyForecasts[dateStr];
         let middayForecast = dayForecasts.reduce((prev, curr) => {
-            const prevHour = parseInt(prev.dt_txt.split(" ")[1].split(":")[0]);
-            const currHour = parseInt(curr.dt_txt.split(" ")[1].split(":")[0]);
+            const prevHour = parseInt(prev.dt_txt.split(" ")[1].split(":" )[0]);
+            const currHour = parseInt(curr.dt_txt.split(" ")[1].split(":" )[0]);
             return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
         });
         return {
@@ -94,11 +93,11 @@ function displayWeather(current, forecast, aqiData) {
         <div class="card float-card">
             <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
             <h3>${today}</h3>
-            <h1 class="temperature-display">${current.main.temp.toFixed(1)}°C</h1>
-            <p>${current.weather[0].description}</p>
-            <p>Humidity: ${current.main.humidity}%</p>
-            <p>Wind: ${current.wind.speed} m/s</p>
-            <img src="${getIconUrl(current.weather[0].icon)}" alt="weather icon" />
+            <h1 class="temperature-display">${current.Temperature.Metric.Value}°C</h1>
+            <p>${current.WeatherText}</p>
+            <p>Humidity: ${current.RelativeHumidity}%</p>
+            <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
+            <img src="${getAccuWeatherIconUrl(current.WeatherIcon)}" alt="weather icon" />
         </div>
 
         <div class="card">
@@ -107,7 +106,7 @@ function displayWeather(current, forecast, aqiData) {
                 ${forecastDays.map(day => `
                     <div class="forecast-day-card" style="text-align:center;">
                         <p class="forecast-date">${new Date(day.date).toDateString()}</p>
-                        <img class="forecast-icon" src="${getIconUrl(day.icon)}" alt="icon" />
+                        <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
                         <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
                         <p style="text-transform: capitalize;">${day.description}</p>
                     </div>
@@ -125,7 +124,6 @@ function displayWeather(current, forecast, aqiData) {
     `;
 }
 
-// Auto-refresh controls (same as your previous code, adapted)
 function setupAutoRefreshControls() {
     let intervalId = null;
     let countdown = 10;
@@ -184,7 +182,6 @@ function setupAutoRefreshControls() {
     }
 }
 
-// Initialize on window load
 window.onload = () => {
     getWeatherFixedLocation();
     setupAutoRefreshControls();
