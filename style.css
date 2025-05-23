@@ -196,14 +196,15 @@ body {
 }
 
 /* Layout structure */
+/* Container for weather cards */
 .main-weather-layout {
   display: flex;
+  justify-content: center; /* Centers items horizontally */
+  align-items: flex-start;  /* Aligns items at the start vertically */
   gap: 20px;
-  align-items: flex-start;
   flex-wrap: wrap;
-  justify-content: center;
+  margin-top: 20px;
 }
-
 .left-column {
   flex: 2;
   min-width: 300px;
@@ -251,9 +252,13 @@ body {
     margin-left: 0;
   }
 
-  .forecast-days {
-    justify-content: center;
-  }
+ /* Optional: Center the forecast cards within their container */
+.forecast-days {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
 }
 
 @media (max-width: 768px) {
