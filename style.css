@@ -302,6 +302,25 @@ button:hover {
   margin: 10px 0;
   animation: float 3s ease-in-out infinite;
 }
+    .main-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.map-container {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+.weather-container {
+  flex: 2;
+  min-width: 300px;
+}
+
 
 
 }
