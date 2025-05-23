@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background: url('aec24.JPEG') no-repeat center center fixed;
   background-size: cover;
@@ -192,25 +193,7 @@ body {
   background-color: #007399;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .main-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .weather-data {
-    flex-direction: column;
-  }
-
-  .forecast-days {
-    justify-content: center;
-  }
-  .temperature-display {
-    font-size: 4rem;
-    font-weight: bold;
-    margin: 10px 0;
-}
+/* Layout structure */
 .main-weather-layout {
   display: flex;
   gap: 20px;
@@ -226,28 +209,30 @@ body {
 .right-column {
   flex: 1;
   min-width: 250px;
+  margin-left: 20px;
 }
 
-/* Forecast cards styling */
-.forecast-days {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.forecast-day-card {
-  text-align: center;
-  background-color: #f0f4f8;
-  border-radius: 8px;
-  padding: 10px;
-  flex: 1 1 120px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-/* Increase temperature font size */
+/* Temperature display */
 .temperature-display {
-  font-size: 4rem; /* bigger font size */
+  font-size: 4rem;
   font-weight: 700;
+  margin: 10px 0;
+}
+
+/* College title */
+.college-title {
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  margin: 10px 0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Optional: map embed style */
+.map-embed {
+  margin-top: 20px;
 }
 
 /* Responsive adjustments */
@@ -259,29 +244,25 @@ body {
   .right-column {
     margin-top: 20px;
     width: 100%;
+    margin-left: 0;
   }
 
   .forecast-days {
     justify-content: center;
   }
 }
-.college-title {
-  font-size: 4rem;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  margin: 10px 0;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
-/* Responsive adjustment for small screens */
 @media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .weather-data {
+    flex-direction: column;
+  }
+
   .college-title {
     font-size: 2.5rem;
   }
 }
-
-
-}
-
