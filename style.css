@@ -1,47 +1,32 @@
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body and background */
 body {
-  font-family: Arial, sans-serif;
-  background: #083743;
+  background: url('aec24.JPEG') no-repeat center center fixed;
+  background-size: cover;
   color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+/* Logo and Title */
+.top-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 10px;
 }
 
-/* Enlarged and Animated College Title (No Glow) */
-.college-title {
-  font-size: 50px;
-  text-align: center;
-  font-weight: bold;
-  margin: 20px 0;
-  line-height: 1.2;
-  color: #ffffff;
-}
-
-.animated-college-title {
-  animation: fadeScaleIn 1.5s ease-out forwards;
-  opacity: 0;
-}
-
-@keyframes fadeScaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) translateY(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.05) translateY(0);
-  }
-}
-
-/* Logo animation */
 .log {
   width: 130px;
   animation: float 3s ease-in-out infinite;
@@ -56,37 +41,72 @@ img {
   }
 }
 
-/* Layout */
-.top-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  padding: 10px;
+.college-title {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  margin-top: 15px;
+  line-height: 1.1;
+  animation: fadeScaleIn 1.5s ease forwards;
+  opacity: 0;
 }
 
+.animated-college-title {
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Welcome note */
 .yuhu p {
   padding: 0 20px;
   font-size: 1rem;
   text-align: center;
+  margin-top: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* Divider */
+hr {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 30px auto;
+  max-width: 700px;
+}
+
+/* Header */
 .header {
-  text-align: center;
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.weather-heading {
+.animated-header {
   font-size: 35px;
-  color: #ffffff;
-  margin: 20px 0;
-  animation: fadeInSlide 1.5s ease-in-out;
+  animation: fadeInSlide 1s ease forwards;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
 }
 
 @keyframes fadeInSlide {
   0% {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-20px);
   }
   100% {
     opacity: 1;
@@ -94,105 +114,7 @@ img {
   }
 }
 
-/* Weather Input */
-.Weather-input {
-  margin: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-input[type="text"] {
-  padding: 10px;
-  width: 200px;
-  border-radius: 5px;
-  border: none;
-  font-size: 1rem;
-}
-
-button {
-  padding: 10px 15px;
-  border: none;
-  background-color: #1b4e59;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #247786;
-  box-shadow: 0 0 8px 2px #00ffff;
-  transition: box-shadow 0.3s ease;
-}
-
-/* Forecast Cards */
-.weather-data {
-  background: #1b4e59;
-  padding: 20px;
-  border-radius: 12px;
-  width: 200px;              /* Set a fixed width */
-  height: 200px;             /* Set a fixed height */
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.card {
-  background: #1b4e59;
-  padding: 20px;
-  margin: 10px 0;
-  border-radius: 12px;
-  animation: float 3s ease-in-out infinite, glowPulse 4s ease-in-out infinite;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.03) translateY(-5px);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
-}
-
-.card:nth-child(odd) {
-  animation-delay: 0s, 0s;
-}
-
-.card:nth-child(even) {
-  animation-delay: 1.5s, 1s;
-}
-
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  }
-}
-
-.temperature-display {
-  font-size: 60px;
-  font-weight: bold;
-  margin: 10px 0;
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Icon Animation */
-.animated-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 35px;
-  color: white;
-}
-
+/* Animated icon inside header */
 .animated-icon {
   animation: rotateIcon 3s linear infinite;
   font-size: 1.5em;
@@ -200,114 +122,150 @@ button:hover {
 }
 
 @keyframes rotateIcon {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(15deg); }
-  100% { transform: rotate(0deg); }
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
 }
 
-/* Droplet Animation Background */
-.droplets {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Main Layout */
+.main-content {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start; /* Align top */
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+}
+
+/* Map container */
+.map-container {
+  flex: 1 1 350px;
+  max-width: 500px;
+  min-width: 300px;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.map-container iframe {
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
+  border: none;
+  display: block;
 }
 
-.droplet {
-  position: absolute;
-  top: -10px;
-  width: 8px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  animation: fall 4s linear infinite;
+/* Weather section */
+.weather-section {
+  flex: 2 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+  height: 400px; /* Match map height */
 }
 
-@keyframes fall {
-  0% {
-    transform: translateY(-10px) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) scale(0.5);
-    opacity: 0;
-  }
-}
-
-/* Layout Adjustments */
-.main-content {
+/* Weather cards container */
+.weather-data {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+  overflow-y: auto;
+}
+
+/* Individual weather cards */
+.card {
+  background: #1b4e59;
   padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 150px;
+  max-width: 180px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.map-container {
-  flex: 1;
-  min-width: 300px;
-  max-width: 600px;
-  margin-top: 40px; /* Push the map slightly down */
-  border-radius: 20px; /* Rounded border (you mentioned earlier) */
-  overflow: hidden;    /* Ensures the border-radius works with iframe */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Optional subtle shadow */
+.card:hover {
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.7);
 }
 
-
-
-.weather-container {
-  flex: 2;
-  min-width: 300px;
+/* Droplets background */
+.droplets {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
 }
 
-/* Divider Styling */
-hr {
-  margin: 40px 0 20px;
-  border: 1px solid #ffffff66;
+.droplet {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: drop 5s infinite linear;
 }
 
-/* Responsive Design */
+@keyframes drop {
+  0% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .college-title {
-    font-size: 40px;
-  }
-
-  .Weather-input {
+  .main-content {
     flex-direction: column;
     align-items: center;
   }
 
-  .weather-data {
-    flex-direction: column;
-    align-items: center;
+  .map-container,
+  .weather-section {
+    height: auto;
+    max-width: 100%;
   }
 
-  input[type="text"],
-  button {
-    width: 80%;
-    max-width: 300px;
+  .weather-section {
+    min-width: unset;
+  }
+  
+  .card {
+    min-width: 80%;
+    max-width: 80%;
+    height: auto;
   }
 }
 
 @media (max-width: 480px) {
-  .log {
-    width: 100px;
-  }
-
   .college-title {
     font-size: 32px;
   }
 
-  .weather-heading {
+  .animated-header {
     font-size: 24px;
   }
 
-  .Weather-input input[type="text"],
-  .Weather-input button {
-    width: 90%;
+  .log {
+    width: 100px;
   }
 }
