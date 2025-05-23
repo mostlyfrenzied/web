@@ -88,40 +88,46 @@ function displayWeather(current, forecast, aqiData) {
             description: middayForecast.weather[0].description
         };
     });
+weatherContainer.innerHTML = `
+    <div class="main-weather-layout" style="display: flex; gap: 20px; align-items: flex-start;">
+        <div class="left-column" style="flex: 2;">
+            <div class="card float-card">
+                <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
+                <h3>${today}</h3>
+                <h1 class="temperature-display" style="font-size: 4rem;">${current.Temperature.Metric.Value}°C</h1>
+                <p>${current.WeatherText}</p>
+                <p>Humidity: ${current.RelativeHumidity}%</p>
+                <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
+                <img src="${getAccuWeatherIconUrl(current.WeatherIcon)}" alt="weather icon" />
+            </div>
 
-    weatherContainer.innerHTML = `
-        <div class="card float-card">
-            <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
-            <h3>${today}</h3>
-            <h1 class="temperature-display" style="font-size: 4rem;">${current.Temperature.Metric.Value}°C</h1>
-            <p>${current.WeatherText}</p>
-            <p>Humidity: ${current.RelativeHumidity}%</p>
-            <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
-            <img src="${getAccuWeatherIconUrl(current.WeatherIcon)}" alt="weather icon" />
-        </div>
-
-        <div class="card">
-            <h3>5-Day Forecast - Assam Engineering College</h3>
-            <div class="forecast-days" style="display: flex; gap: 10px;">
-                ${forecastDays.map(day => `
-                    <div class="forecast-day-card" style="text-align:center;">
-                        <p class="forecast-date">${new Date(day.date).toDateString()}</p>
-                        <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
-                        <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
-                        <p style="text-transform: capitalize;">${day.description}</p>
-                    </div>
-                `).join("")}
+            <div class="card">
+                <h3>5-Day Forecast - Assam Engineering College</h3>
+                <div class="forecast-days" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    ${forecastDays.map(day => `
+                        <div class="forecast-day-card" style="text-align:center;">
+                            <p class="forecast-date">${new Date(day.date).toDateString()}</p>
+                            <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
+                            <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
+                            <p style="text-transform: capitalize;">${day.description}</p>
+                        </div>
+                    `).join("")}
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <h3>Air Quality Index (AQI)</h3>
-            <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
-                ${aqiText[aqi]} (AQI: ${aqi})
-            </p>
-            <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
+        <div class="right-column" style="flex: 1;">
+            <div class="card">
+                <h3>Air Quality Index (AQI)</h3>
+                <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
+                    ${aqiText[aqi]} (AQI: ${aqi})
+                </p>
+                <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
+            </div>
         </div>
-    `;
+    </div>
+`;
+   
 }
 
 function setupAutoRefreshControls() {
