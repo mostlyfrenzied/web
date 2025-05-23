@@ -58,9 +58,10 @@ function displayWeather(current, forecast, aqiData) {
     5: "#660099",
   };
 
-  function getOpenWeatherIconUrl(iconCode) {
-    return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-  }
+ function getOpenWeatherIconUrl(iconCode) {
+  return `https://rodrigokamada.github.io/openweathermap/images/${iconCode}_t@2x.png`;
+}
+
 
   // Group forecast by date string (local time)
   const dailyForecasts = {};
