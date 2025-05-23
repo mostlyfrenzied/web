@@ -20,18 +20,6 @@ body {
   align-items: center;
   margin-top: 20px;
   padding: 10px;
-  animation: fadeSlideDown 1.5s ease-out forwards;
-  opacity: 0;
-}
-@keyframes fadeSlideDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 .log {
   width: 130px;
