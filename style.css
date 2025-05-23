@@ -247,7 +247,13 @@ button:hover {
   flex: 1;
   min-width: 300px;
   max-width: 600px;
+  border-radius: 15px; /* Makes the border corners round */
+  border: 2px solid #ffffff66; /* Optional: adds a subtle white border */
+  overflow: hidden; /* Prevents child content from overflowing the rounded corners */
+  background-color: #0f4c5c; /* Optional: adds a subtle background */
+  padding: 10px; /* Optional: adds some spacing inside */
 }
+
 
 .weather-container {
   flex: 2;
