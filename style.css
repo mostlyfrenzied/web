@@ -261,6 +261,13 @@ body {
     justify-content: center;
   }
 }
+.college-title {
+  font-size: 3rem; /* Try 3.5rem or 4rem if needed */
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 1px;
+}
 
 }
 
