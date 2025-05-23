@@ -1,5 +1,3 @@
-// Replace with your actual API keys
-const accuweatherApiKey = "XDrgqVwN8GEi6zKtqTrcIHfPGe019ClP";
 const openWeatherApiKey = "022267a673a319a6da4bf15f53706e37";
 
 // Coordinates for Assam Engineering College
@@ -9,47 +7,40 @@ const longitude = 91.6746041874584;
 // DOM element to display weather information
 const weatherContainer = document.getElementById("weather-container");
 
-// Function to fetch weather data
+// Fetch weather, forecast, and AQI data from OpenWeatherMap
 async function getWeatherFixedLocation() {
     try {
-        // Step 1: Get location key from AccuWeather
-        const locationUrl = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${accuweatherApiKey}&q=${latitude},${longitude}`;
-        const locationRes = await fetch(locationUrl);
-        if (!locationRes.ok) throw new Error(`AccuWeather Location API error: ${locationRes.status}`);
-        const locationData = await locationRes.json();
-        const locationKey = locationData.Key;
+        // Fetch current weather
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+        const weatherRes = await fetch(weatherUrl);
+        if (!weatherRes.ok) throw new Error(`Weather API error: ${weatherRes.status}`);
+        const weatherData = await weatherRes.json();
 
-        // Step 2: Fetch current conditions from AccuWeather
-        const currentUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuweatherApiKey}&details=true`;
-        const currentRes = await fetch(currentUrl);
-        if (!currentRes.ok) throw new Error(`AccuWeather Current Conditions API error: ${currentRes.status}`);
-        const currentData = await currentRes.json();
-
-        // Step 3: Fetch 5-day forecast from AccuWeather
-        const forecastUrl = `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${accuweatherApiKey}&metric=true`;
+        // Fetch 5-day forecast (3-hour intervals)
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
         const forecastRes = await fetch(forecastUrl);
-        if (!forecastRes.ok) throw new Error(`AccuWeather Forecast API error: ${forecastRes.status}`);
+        if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
         const forecastData = await forecastRes.json();
 
-        // Step 4: Fetch AQI data from OpenWeatherMap
+        // Fetch AQI data
         const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
         const aqiRes = await fetch(aqiUrl);
-        if (!aqiRes.ok) throw new Error(`OpenWeatherMap AQI API error: ${aqiRes.status}`);
+        if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
         const aqiData = await aqiRes.json();
 
-        // Display the fetched data
-        displayWeather(currentData[0], forecastData, aqiData);
+        // Display everything
+        displayWeather(weatherData, forecastData, aqiData);
     } catch (error) {
         console.error("Error fetching weather data:", error);
         alert("Failed to load weather data. Please check API keys or network.");
     }
 }
 
-// Function to display weather data
+// Display data function
 function displayWeather(current, forecast, aqiData) {
     const today = new Date().toDateString();
 
-    // AQI value and mapping
+    // AQI mapping from OpenWeatherMap (1 to 5)
     const aqi = aqiData.list[0].main.aqi;
     const aqiText = {
         1: "Good",
@@ -66,25 +57,59 @@ function displayWeather(current, forecast, aqiData) {
         5: "#660099"
     };
 
-    // Construct HTML content
+    // OpenWeatherMap icon URL helper
+    function getIconUrl(iconCode) {
+        return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    }
+
+    // Group forecast by day (show 5 days)
+    const dailyForecasts = {};
+    forecast.list.forEach(item => {
+        const dateStr = item.dt_txt.split(" ")[0];
+        if (!dailyForecasts[dateStr]) {
+            dailyForecasts[dateStr] = [];
+        }
+        dailyForecasts[dateStr].push(item);
+    });
+
+    // Reduce to one forecast per day (e.g. midday)
+    const forecastDays = Object.keys(dailyForecasts).slice(0, 5).map(dateStr => {
+        // Pick the forecast closest to 12:00 PM
+        const dayForecasts = dailyForecasts[dateStr];
+        let middayForecast = dayForecasts.reduce((prev, curr) => {
+            const prevHour = parseInt(prev.dt_txt.split(" ")[1].split(":")[0]);
+            const currHour = parseInt(curr.dt_txt.split(" ")[1].split(":")[0]);
+            return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
+        });
+        return {
+            date: dateStr,
+            temp_min: Math.min(...dayForecasts.map(f => f.main.temp_min)),
+            temp_max: Math.max(...dayForecasts.map(f => f.main.temp_max)),
+            icon: middayForecast.weather[0].icon,
+            description: middayForecast.weather[0].description
+        };
+    });
+
     weatherContainer.innerHTML = `
         <div class="card float-card">
             <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
             <h3>${today}</h3>
-            <h1 class="temperature-display">${current.Temperature.Metric.Value}°C</h1>
-            <p>${current.WeatherText}</p>
-            <p>Humidity: ${current.RelativeHumidity}%</p>
-            <p>Wind: ${current.Wind.Speed.Metric.Value} ${current.Wind.Speed.Metric.Unit}</p>
+            <h1 class="temperature-display">${current.main.temp.toFixed(1)}°C</h1>
+            <p>${current.weather[0].description}</p>
+            <p>Humidity: ${current.main.humidity}%</p>
+            <p>Wind: ${current.wind.speed} m/s</p>
+            <img src="${getIconUrl(current.weather[0].icon)}" alt="weather icon" />
         </div>
 
         <div class="card">
             <h3>5-Day Forecast - Assam Engineering College</h3>
-            <div class="forecast-days">
-                ${forecast.DailyForecasts.map(day => `
-                    <div class="forecast-day-card">
-                        <p class="forecast-date">${new Date(day.Date).toDateString()}</p>
-                        <img class="forecast-icon" src="https://developer.accuweather.com/sites/default/files/${String(day.Day.Icon).padStart(2, '0')}-s.png" alt="icon" />
-                        <p class="forecast-temp">${day.Temperature.Minimum.Value}°C - ${day.Temperature.Maximum.Value}°C</p>
+            <div class="forecast-days" style="display: flex; gap: 10px;">
+                ${forecastDays.map(day => `
+                    <div class="forecast-day-card" style="text-align:center;">
+                        <p class="forecast-date">${new Date(day.date).toDateString()}</p>
+                        <img class="forecast-icon" src="${getIconUrl(day.icon)}" alt="icon" />
+                        <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
+                        <p style="text-transform: capitalize;">${day.description}</p>
                     </div>
                 `).join("")}
             </div>
@@ -100,13 +125,12 @@ function displayWeather(current, forecast, aqiData) {
     `;
 }
 
-// Function to set up auto-refresh controls
+// Auto-refresh controls (same as your previous code, adapted)
 function setupAutoRefreshControls() {
     let intervalId = null;
-    let countdown = 5;
+    let countdown = 10;
     let countdownInterval = null;
 
-    // Create control card
     const controlCard = document.createElement("div");
     controlCard.className = "card float-card";
     controlCard.style.textAlign = "center";
@@ -115,7 +139,7 @@ function setupAutoRefreshControls() {
 
     controlCard.innerHTML = `
         <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
-        <button id="toggle-refresh" class="auto-refresh-button">Start Auto-Refresh</button>
+        <button id="toggle-refresh" class="auto-refresh-button" style="background-color:#0099cc; color:#fff; border:none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Start Auto-Refresh</button>
         <p id="countdown" style="font-size: 14px; color: #555; margin-top: 10px;">Auto-refresh is off</p>
     `;
 
@@ -137,13 +161,13 @@ function setupAutoRefreshControls() {
     });
 
     function startAutoRefresh() {
-        countdown = 5;
+        countdown = 10;
         countdownDisplay.textContent = `Next update in ${countdown} seconds`;
 
         intervalId = setInterval(() => {
             getWeatherFixedLocation();
-            countdown = 5;
-        }, 5000);
+            countdown = 10;
+        }, 10000);
 
         countdownInterval = setInterval(() => {
             countdown--;
