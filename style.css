@@ -262,12 +262,22 @@ body {
   }
 }
 .college-title {
-  font-size: 3rem; /* Try 3.5rem or 4rem if needed */
+  font-size: 4rem;
   font-weight: bold;
-  margin: 0;
   text-align: center;
-  letter-spacing: 1px;
+  color: white;
+  margin: 10px 0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+  .college-title {
+    font-size: 2.5rem;
+  }
+}
+
 
 }
 
