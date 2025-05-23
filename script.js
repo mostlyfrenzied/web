@@ -4,94 +4,101 @@ const openWeatherApiKey = "89e798baf769942793533270585500b2";
 const latitude = 26.15789628555117;
 const longitude = 91.6746041874584;
 
-// DOM element to display weather information
+// Container for weather info
 const weatherContainer = document.getElementById("weather-container");
 
-// Fetch current weather, forecast, and AQI data
+// Fetch weather data (current, forecast, AQI)
 async function getWeatherFixedLocation() {
-    try {
-        // Fetch current weather from OpenWeatherMap
-        const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
-        const currentRes = await fetch(currentWeatherUrl);
-        if (!currentRes.ok) throw new Error(`Current Weather API error: ${currentRes.status}`);
-        const currentData = await currentRes.json();
+  try {
+    // Current weather
+    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+    const currentRes = await fetch(currentUrl);
+    if (!currentRes.ok) throw new Error(`Current Weather API error: ${currentRes.status}`);
+    const currentData = await currentRes.json();
 
-        // Fetch 5-day forecast from OpenWeatherMap
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
-        const forecastRes = await fetch(forecastUrl);
-        if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
-        const forecastData = await forecastRes.json();
+    // 5-day forecast
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+    const forecastRes = await fetch(forecastUrl);
+    if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
+    const forecastData = await forecastRes.json();
 
-        // Fetch AQI data from OpenWeatherMap
-        const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
-        const aqiRes = await fetch(aqiUrl);
-        if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
-        const aqiData = await aqiRes.json();
+    // AQI data
+    const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
+    const aqiRes = await fetch(aqiUrl);
+    if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
+    const aqiData = await aqiRes.json();
 
-        displayWeather(currentData, forecastData, aqiData);
-    } catch (error) {
-        console.error("Error fetching weather data:", error);
-        alert("Failed to load weather data. Please check API keys or network.");
-    }
+    displayWeather(currentData, forecastData, aqiData);
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    weatherContainer.innerHTML = `<p style="color:red; font-weight: bold;">Failed to load weather data. Please try again later.</p>`;
+  }
 }
 
 function displayWeather(current, forecast, aqiData) {
-    const today = new Date().toDateString();
+  // Timezone offset in seconds
+  const tzOffset = forecast.city.timezone;
 
-    const aqi = aqiData.list[0].main.aqi;
-    const aqiText = {
-        1: "Good",
-        2: "Fair",
-        3: "Moderate",
-        4: "Poor",
-        5: "Very Poor"
-    };
-    const aqiColor = {
-        1: "#009966",
-        2: "#ffde33",
-        3: "#ff9933",
-        4: "#cc0033",
-        5: "#660099"
-    };
+  // Format today's date in local timezone
+  const today = new Date(Date.now() + tzOffset * 1000).toDateString();
 
-    function getOpenWeatherIconUrl(iconCode) {
-        return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-    }
+  const aqi = aqiData.list[0].main.aqi;
+  const aqiText = {
+    1: "Good",
+    2: "Fair",
+    3: "Moderate",
+    4: "Poor",
+    5: "Very Poor",
+  };
+  const aqiColor = {
+    1: "#009966",
+    2: "#ffde33",
+    3: "#ff9933",
+    4: "#cc0033",
+    5: "#660099",
+  };
 
-    // Group forecast data by date
-    const dailyForecasts = {};
-    forecast.list.forEach(item => {
-        const dateStr = item.dt_txt.split(" ")[0];
-        if (!dailyForecasts[dateStr]) {
-            dailyForecasts[dateStr] = [];
-        }
-        dailyForecasts[dateStr].push(item);
+  function getOpenWeatherIconUrl(iconCode) {
+    return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  }
+
+  // Group forecast by date string (local time)
+  const dailyForecasts = {};
+  forecast.list.forEach((item) => {
+    // Convert dt (unix time) to local date string using timezone offset
+    const localDt = new Date((item.dt + tzOffset) * 1000);
+    const dateStr = localDt.toISOString().split("T")[0];
+    if (!dailyForecasts[dateStr]) dailyForecasts[dateStr] = [];
+    dailyForecasts[dateStr].push(item);
+  });
+
+  // Get 5-day forecast summary
+  const forecastDays = Object.keys(dailyForecasts)
+    .slice(0, 5)
+    .map((dateStr) => {
+      const dayForecasts = dailyForecasts[dateStr];
+      // Pick forecast closest to 12:00 local time
+      let middayForecast = dayForecasts.reduce((prev, curr) => {
+        const prevHour = new Date((prev.dt + tzOffset) * 1000).getHours();
+        const currHour = new Date((curr.dt + tzOffset) * 1000).getHours();
+        return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
+      });
+      return {
+        date: dateStr,
+        temp_min: Math.min(...dayForecasts.map((f) => f.main.temp_min)),
+        temp_max: Math.max(...dayForecasts.map((f) => f.main.temp_max)),
+        icon: middayForecast.weather[0].icon,
+        description: middayForecast.weather[0].description,
+      };
     });
 
-    // Prepare forecast for next 5 days with midday data
-    const forecastDays = Object.keys(dailyForecasts).slice(0, 5).map(dateStr => {
-        const dayForecasts = dailyForecasts[dateStr];
-        let middayForecast = dayForecasts.reduce((prev, curr) => {
-            const prevHour = parseInt(prev.dt_txt.split(" ")[1].split(":")[0]);
-            const currHour = parseInt(curr.dt_txt.split(" ")[1].split(":")[0]);
-            return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
-        });
-        return {
-            date: dateStr,
-            temp_min: Math.min(...dayForecasts.map(f => f.main.temp_min)),
-            temp_max: Math.max(...dayForecasts.map(f => f.main.temp_max)),
-            icon: middayForecast.weather[0].icon,
-            description: middayForecast.weather[0].description
-        };
-    });
-
-    weatherContainer.innerHTML = `
-    <div class="main-weather-layout" style="display: flex; gap: 20px; align-items: flex-start;">
-      <div class="left-column" style="flex: 2;">
+  weatherContainer.innerHTML = `
+    <div class="main-weather-layout">
+      <div class="left-column">
         <div class="card float-card">
           <h2 class="weather-heading"><i class="bx bx-cloud"></i> Weather at Assam Engineering College</h2>
           <h3>${today}</h3>
-          <h1 class="temperature-display" style="font-size: 4rem;">${current.main.temp.toFixed(1)}°C</h1>
+          <h1 class="temperature-display">${current.main.temp.toFixed(1)}°C</h1>
           <p style="text-transform: capitalize;">${current.weather[0].description}</p>
           <p>Humidity: ${current.main.humidity}%</p>
           <p>Wind: ${current.wind.speed} m/s</p>
@@ -100,20 +107,24 @@ function displayWeather(current, forecast, aqiData) {
 
         <div class="card">
           <h3>5-Day Forecast - Assam Engineering College</h3>
-          <div class="forecast-days" style="display: flex; gap: 10px; flex-wrap: wrap;">
-            ${forecastDays.map(day => `
-              <div class="forecast-day-card" style="text-align:center;">
+          <div class="forecast-days">
+            ${forecastDays
+              .map(
+                (day) => `
+              <div class="forecast-day-card">
                 <p class="forecast-date">${new Date(day.date).toDateString()}</p>
                 <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
                 <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
                 <p style="text-transform: capitalize;">${day.description}</p>
               </div>
-            `).join("")}
+            `
+              )
+              .join("")}
           </div>
         </div>
       </div>
 
-      <div class="right-column" style="flex: 1;">
+      <div class="right-column">
         <div class="card">
           <h3>Air Quality Index (AQI)</h3>
           <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
@@ -123,68 +134,71 @@ function displayWeather(current, forecast, aqiData) {
         </div>
       </div>
     </div>
-    `;
+  `;
 }
 
 function setupAutoRefreshControls() {
-    let intervalId = null;
-    let countdown = 10;
-    let countdownInterval = null;
+  let intervalId = null;
+  let countdown = 10;
+  let countdownInterval = null;
 
-    const controlCard = document.createElement("div");
-    controlCard.className = "card float-card";
-    controlCard.style.textAlign = "center";
-    controlCard.style.marginTop = "20px";
-    controlCard.style.padding = "20px";
+  // Prevent multiple controls on reload
+  if (document.querySelector(".auto-refresh-control")) return;
 
-    controlCard.innerHTML = `
-        <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
-        <button id="toggle-refresh" class="auto-refresh-button" style="background-color:#0099cc; color:#fff; border:none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Start Auto-Refresh</button>
-        <p id="countdown" style="font-size: 14px; color: #555; margin-top: 10px;">Auto-refresh is off</p>
-    `;
+  const controlCard = document.createElement("div");
+  controlCard.className = "card float-card auto-refresh-control";
+  controlCard.style.textAlign = "center";
+  controlCard.style.marginTop = "20px";
+  controlCard.style.padding = "20px";
 
-    document.body.appendChild(controlCard);
+  controlCard.innerHTML = `
+    <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
+    <button id="toggle-refresh" class="auto-refresh-button" style="background-color:#0099cc; color:#fff; border:none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Start Auto-Refresh</button>
+    <p id="countdown" style="font-size: 14px; color: #555; margin-top: 10px;">Auto-refresh is off</p>
+  `;
 
-    const toggleButton = document.getElementById("toggle-refresh");
-    const countdownDisplay = document.getElementById("countdown");
+  document.body.appendChild(controlCard);
 
-    toggleButton.addEventListener("click", () => {
-        if (intervalId === null) {
-            startAutoRefresh();
-            toggleButton.textContent = "Stop Auto-Refresh";
-            toggleButton.style.backgroundColor = "#f44336";
-        } else {
-            stopAutoRefresh();
-            toggleButton.textContent = "Start Auto-Refresh";
-            toggleButton.style.backgroundColor = "#0099cc";
-        }
-    });
+  const toggleButton = document.getElementById("toggle-refresh");
+  const countdownDisplay = document.getElementById("countdown");
 
-    function startAutoRefresh() {
-        countdown = 10;
-        countdownDisplay.textContent = `Next update in ${countdown} seconds`;
-
-        intervalId = setInterval(() => {
-            getWeatherFixedLocation();
-            countdown = 10;
-        }, 10000);
-
-        countdownInterval = setInterval(() => {
-            countdown--;
-            countdownDisplay.textContent = `Next update in ${countdown} seconds`;
-        }, 1000);
+  toggleButton.addEventListener("click", () => {
+    if (intervalId === null) {
+      startAutoRefresh();
+      toggleButton.textContent = "Stop Auto-Refresh";
+      toggleButton.style.backgroundColor = "#f44336";
+    } else {
+      stopAutoRefresh();
+      toggleButton.textContent = "Start Auto-Refresh";
+      toggleButton.style.backgroundColor = "#0099cc";
     }
+  });
 
-    function stopAutoRefresh() {
-        clearInterval(intervalId);
-        clearInterval(countdownInterval);
-        intervalId = null;
-        countdownInterval = null;
-        countdownDisplay.textContent = "Auto-refresh is off";
-    }
+  function startAutoRefresh() {
+    countdown = 10;
+    countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+
+    intervalId = setInterval(() => {
+      getWeatherFixedLocation();
+      countdown = 10;
+    }, 10000);
+
+    countdownInterval = setInterval(() => {
+      countdown--;
+      countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+    }, 1000);
+  }
+
+  function stopAutoRefresh() {
+    clearInterval(intervalId);
+    clearInterval(countdownInterval);
+    intervalId = null;
+    countdownInterval = null;
+    countdownDisplay.textContent = "Auto-refresh is off";
+  }
 }
 
 window.onload = () => {
-    getWeatherFixedLocation();
-    setupAutoRefreshControls();
+  getWeatherFixedLocation();
+  setupAutoRefreshControls();
 };
