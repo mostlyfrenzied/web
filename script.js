@@ -119,8 +119,10 @@ function displayWeather(current, forecast, aqiData) {
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade">
       </iframe>
-      <video class="weather video"controls autoplay muted loop;
+      <video class="weather-video"controls autoplay muted loop>
       <source src="aecvideo.mp4" type="video/mp4" />
+      your browser doesnot support this video
+      </video>
         </div>
         </div>
 
