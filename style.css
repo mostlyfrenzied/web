@@ -204,7 +204,7 @@ body {
 .main-weather-layout {
   display: flex;
   justify-content: center; /* Centers items horizontally */
-  align-items: flex-start;  /* Aligns items at the start vertically */
+  align-items: center;  /* Aligns items at the start vertically */
   gap: 20px;
   flex-wrap: wrap;
   margin-top: 20px;
