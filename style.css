@@ -34,7 +34,7 @@ body {
 .main-content {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 0px;
+  gap: 175px;
   padding: 0px;
   align-items: center;
   justify-content: center;
