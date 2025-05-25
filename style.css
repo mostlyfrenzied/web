@@ -204,7 +204,7 @@ body {
   display: flex;
   justify-content: center; /* Centers items horizontally */
   align-items: center;  /* Aligns items at the start vertically */
-  gap: 20px;
+  gap: 80px;
   flex-wrap: wrap;
   margin-top: 20px;
 }
