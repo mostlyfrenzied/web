@@ -36,6 +36,9 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
 }
 
 .map-embed {
