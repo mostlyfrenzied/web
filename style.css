@@ -95,11 +95,12 @@ body {
 
 /* Animated College Title */
 .animated-college-title {
-  font-size: 2.5rem;
-  color: #004d99;
+  font-size: 3.5rem;
+  color: #ffffff;
   animation: pulse 3s infinite;
-  font-weight: 700;
+  font-weight: 800;
   user-select: none;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
 }
 
 @keyframes pulse {
