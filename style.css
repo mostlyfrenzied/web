@@ -5,17 +5,23 @@
   padding: 0;
 }
 body {
+  position: relative;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  
   background: url('aec24.JPEG') no-repeat center center fixed;
   background-size: cover;
+  color: #fff;
+}
 
-  color: #222;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeSlideIn 1s forwards ease-out;
-  min-height: 100vh;
-  overflow-x: hidden;
+/* Dark overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 0.5 = 50% dark overlay */
+  z-index: -1;
 }
 /* Fade and slide in on page load */
 @keyframes fadeSlideIn {
