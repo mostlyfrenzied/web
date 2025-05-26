@@ -10,20 +10,18 @@ const weatherContainer = document.getElementById("weather-container");
 // Fetch weather data (current, forecast, AQI)
 async function getWeatherFixedLocation() {
   try {
-    // Current weather
     const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+    const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
+
     const currentRes = await fetch(currentUrl);
     if (!currentRes.ok) throw new Error(`Current Weather API error: ${currentRes.status}`);
     const currentData = await currentRes.json();
 
-    // 5-day forecast
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
     const forecastRes = await fetch(forecastUrl);
     if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
     const forecastData = await forecastRes.json();
 
-    // AQI data
-    const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
     const aqiRes = await fetch(aqiUrl);
     if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
     const aqiData = await aqiRes.json();
@@ -36,12 +34,13 @@ async function getWeatherFixedLocation() {
 }
 
 function getOpenWeatherIconUrl(iconCode) {
-  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  return `https://rodrigokamada.github.io/openweathermap/images/${iconCode}_t@2x.png`;
 }
 
 function displayWeather(current, forecast, aqiData) {
   const tzOffset = forecast.city.timezone;
   const today = new Date(Date.now() + tzOffset * 1000).toDateString();
+
   const aqi = aqiData.list[0].main.aqi;
   const aqiText = {
     1: "Good",
@@ -94,6 +93,7 @@ function displayWeather(current, forecast, aqiData) {
           <p style="text-transform: capitalize;">${current.weather[0].description}</p>
           <p>Humidity: ${current.main.humidity}%</p>
           <p>Wind: ${current.wind.speed} m/s</p>
+
           <div class="right-column">
             <div class="card">
               <h3>Air Quality Index (AQI)</h3>
@@ -103,6 +103,7 @@ function displayWeather(current, forecast, aqiData) {
               <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
             </div>
           </div>
+
           <div class="map-embed" style="margin-top: 20px">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.123456789!2d91.65972!3d26.14278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAssam%20Engineering%20College!5e0!3m2!1sen!2sin!4v1234567890"
@@ -112,18 +113,19 @@ function displayWeather(current, forecast, aqiData) {
             </iframe>
           </div>
         </div>
+
         <div class="card">
           <h3>5-Day Forecast - Assam Engineering College</h3>
           <div class="forecast-days">
             ${forecastDays
               .map(
                 (day) => `
-                <div class="forecast-day-card">
-                  <p class="forecast-date">${new Date(day.date).toDateString()}</p>
-                  <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
-                  <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
-                  <p style="text-transform: capitalize;">${day.description}</p>
-                </div>`
+              <div class="forecast-day-card">
+                <p class="forecast-date">${new Date(day.date).toDateString()}</p>
+                <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
+                <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
+                <p style="text-transform: capitalize;">${day.description}</p>
+              </div>`
               )
               .join("")}
           </div>
