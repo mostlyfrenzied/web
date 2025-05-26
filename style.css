@@ -4,10 +4,12 @@
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #a3cef1, #7aa7c7);
+  
+  background: url('aec24.jpeg') no-repeat center center fixed;
+  background-size: cover;
+
   color: #222;
   opacity: 0;
   transform: translateY(20px);
@@ -15,7 +17,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
 /* Fade and slide in on page load */
 @keyframes fadeSlideIn {
   to {
