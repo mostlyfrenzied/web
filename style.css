@@ -114,7 +114,7 @@ body::before {
   max-width: 600px;
   margin: 0 auto 40px;
   font-size: 1.1rem;
-  color: #333;
+  color: #ffffff;
   text-align: center;
   line-height: 1.6;
   padding: 0 20px;
@@ -139,7 +139,7 @@ hr {
 
 .animated-header {
   font-size: 2rem;
-  color: #0066cc;
+  color: #ffffff;
   animation: pulse 2.5s infinite;
   display: inline-flex;
   align-items: center;
