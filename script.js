@@ -198,7 +198,8 @@ function setupAutoRefreshControls() {
 window.onload = () => {
   getWeatherFixedLocation();
   setupAutoRefreshControls();
-  const iframe = document.querySelector(".map-embed iframe");
+}
+const iframe = document.querySelector(".map-embed iframe");
 if (iframe) {
   iframe.addEventListener("load", () => {
     iframe.classList.add("loaded");
