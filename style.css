@@ -299,4 +299,14 @@ body::before {
   .college-title {
     font-size: clamp(2rem, 6vw, 2.5rem);
   }
+  .log {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.log:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
 }
