@@ -109,17 +109,6 @@ body::before {
   text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    color: #004d99;
-  }
-  50% {
-    transform: scale(1.05);
-    color: #1a75ff;
-  }
-}
-
 /* Welcome note */
 .yuhu {
   max-width: 600px;
