@@ -11,27 +11,27 @@ const weatherContainer = document.getElementById("weather-container");
 async function getWeatherFixedLocation() {
   try {
     // Current weather
-    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+    const currentUrl = https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric;
     const currentRes = await fetch(currentUrl);
-    if (!currentRes.ok) throw new Error(`Current Weather API error: ${currentRes.status}`);
+    if (!currentRes.ok) throw new Error(Current Weather API error: ${currentRes.status});
     const currentData = await currentRes.json();
 
     // 5-day forecast
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
+    const forecastUrl = https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric;
     const forecastRes = await fetch(forecastUrl);
-    if (!forecastRes.ok) throw new Error(`Forecast API error: ${forecastRes.status}`);
+    if (!forecastRes.ok) throw new Error(Forecast API error: ${forecastRes.status});
     const forecastData = await forecastRes.json();
 
     // AQI data
-    const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
+    const aqiUrl = https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey};
     const aqiRes = await fetch(aqiUrl);
-    if (!aqiRes.ok) throw new Error(`AQI API error: ${aqiRes.status}`);
+    if (!aqiRes.ok) throw new Error(AQI API error: ${aqiRes.status});
     const aqiData = await aqiRes.json();
 
     displayWeather(currentData, forecastData, aqiData);
   } catch (error) {
     console.error("Error fetching weather data:", error);
-    weatherContainer.innerHTML = `<p style="color:red; font-weight: bold;">Failed to load weather data. Please try again later.</p>`;
+    weatherContainer.innerHTML = <p style="color:red; font-weight: bold;">Failed to load weather data. Please try again later.</p>;
   }
 }
 
@@ -59,7 +59,7 @@ function displayWeather(current, forecast, aqiData) {
   };
 
  function getOpenWeatherIconUrl(iconCode) {
-  return `https://rodrigokamada.github.io/openweathermap/images/${iconCode}_t@2x.png`;
+  return https://rodrigokamada.github.io/openweathermap/images/${iconCode}_t@2x.png;
 }
 
 
@@ -93,7 +93,7 @@ function displayWeather(current, forecast, aqiData) {
       };
     });
 
-  weatherContainer.innerHTML = `
+  weatherContainer.innerHTML = 
     <div class="main-weather-layout">
       <div class="left-column">
         <div class="card float-card">
@@ -127,14 +127,14 @@ function displayWeather(current, forecast, aqiData) {
           <div class="forecast-days">
             ${forecastDays
               .map(
-                (day) => `
+                (day) => 
               <div class="forecast-day-card">
                 <p class="forecast-date">${new Date(day.date).toDateString()}</p>
                 <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
                 <p class="forecast-temp">${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
                 <p style="text-transform: capitalize;">${day.description}</p>
               </div>
-            `
+            
               )
               .join("")}
           </div>
@@ -143,7 +143,7 @@ function displayWeather(current, forecast, aqiData) {
 
       
     </div>
-  `;
+  ;
 }
 
 function setupAutoRefreshControls() {
@@ -160,11 +160,11 @@ function setupAutoRefreshControls() {
   controlCard.style.marginTop = "20px";
   controlCard.style.padding = "20px";
 
-  controlCard.innerHTML = `
+  controlCard.innerHTML = 
     <h3><i class="bx bx-sync"></i> Auto-Refresh Controls</h3>
     <button id="toggle-refresh" class="auto-refresh-button" style="background-color:#0099cc; color:#fff; border:none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Start Auto-Refresh</button>
     <p id="countdown" style="font-size: 14px; color: #555; margin-top: 10px;">Auto-refresh is off</p>
-  `;
+  ;
 
   document.body.appendChild(controlCard);
 
@@ -185,7 +185,7 @@ function setupAutoRefreshControls() {
 
   function startAutoRefresh() {
     countdown = 10;
-    countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+    countdownDisplay.textContent = Next update in ${countdown} seconds;
 
     intervalId = setInterval(() => {
       getWeatherFixedLocation();
@@ -194,7 +194,7 @@ function setupAutoRefreshControls() {
 
     countdownInterval = setInterval(() => {
       countdown--;
-      countdownDisplay.textContent = `Next update in ${countdown} seconds`;
+      countdownDisplay.textContent = Next update in ${countdown} seconds;
     }, 1000);
   }
 
