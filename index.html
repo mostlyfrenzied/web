@@ -3,188 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Weather at Assam Engineering College</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-    .main-weather-layout {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .temperature-display {
-      font-size: 48px;
-      font-weight: bold;
-    }
-    .forecast-days {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .forecast-day-card {
-      background: #f9f9f9;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      flex: 1;
-      min-width: 140px;
-    }
-    .forecast-icon {
-      width: 50px;
-      height: 50px;
-    }
-    .map-embed {
-      margin-top: 20px;
-    }
-    .map-embed iframe {
-      width: 100%;
-      height: 350px;
-      border: 0;
-      border-radius: 10px;
-    }
-  </style>
+  <title>Weather App</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-  <div class="main-weather-layout">
-    <div id="weather-container"></div>
+  <!-- Animated Droplets Background -->
+  <div class="droplets">
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
   </div>
 
+  <!-- College Header -->
+  <div class="top-center">
+    <img class="log" src="Assam_Engineering_College_logo.png" alt="AEC Logo" />
+    <h1 class="college-title animated-college-title">ASSAM ENGINEERING COLLEGE</h1>
+  </div>
+
+  <!-- Welcome Note -->
+  <div class="yuhu">
+    <p>
+      Welcome to AEC Weather Watch.<br />
+      Stay updated with real-time weather and air quality data, brought to you by Assam Engineering College.
+    </p>
+  </div>
+
+  <hr/>
+
+  <!-- Header -->
+  <div class="header">
+    <h2 class="animated-header">
+      <i class='bx bx-time-five animated-icon'></i> WEATHER WATCH
+    </h2>
+  </div>
+    <div class="weather-section">
+      <div id="weather-container" class="weather-data">
+        <!-- Weather forecast cards injected by script.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional: Auto-refresh button -->
+  <div style="text-align: center;">
+    <button class="auto-refresh-button" onclick="location.reload();">
+      Refresh Data
+    </button>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
   <script>
-    const openWeatherApiKey = "89e798baf769942793533270585500b2";
-    const latitude = 26.15789628555117;
-    const longitude = 91.6746041874584;
-    const weatherContainer = document.getElementById("weather-container");
-
-    async function getWeatherFixedLocation() {
-      try {
-        const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}&units=metric`;
-        const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${openWeatherApiKey}`;
-
-        const [currentRes, forecastRes, aqiRes] = await Promise.all([
-          fetch(currentUrl),
-          fetch(forecastUrl),
-          fetch(aqiUrl)
-        ]);
-
-        if (!currentRes.ok || !forecastRes.ok || !aqiRes.ok) throw new Error("API error");
-
-        const currentData = await currentRes.json();
-        const forecastData = await forecastRes.json();
-        const aqiData = await aqiRes.json();
-
-        displayWeather(currentData, forecastData, aqiData);
-      } catch (error) {
-        weatherContainer.innerHTML = `<p style="color:red; font-weight: bold;">Failed to load weather data. Please try again later.</p>`;
-      }
-    }
-
-    function getOpenWeatherIconUrl(iconCode) {
-      return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-    }
-
-    function displayWeather(current, forecast, aqiData) {
-      const tzOffset = forecast.city.timezone;
-      const today = new Date(Date.now() + tzOffset * 1000).toDateString();
-      const aqi = aqiData.list[0].main.aqi;
-      const aqiValue100 = ((aqi - 1) / 4) * 100;
-
-      const aqiText = {
-        1: "Good",
-        2: "Fair",
-        3: "Moderate",
-        4: "Poor",
-        5: "Very Poor",
-      };
-
-      const aqiColor = {
-        1: "#009966",
-        2: "#ffde33",
-        3: "#ff9933",
-        4: "#cc0033",
-        5: "#660099",
-      };
-
-      const dailyForecasts = {};
-      forecast.list.forEach((item) => {
-        const localDt = new Date((item.dt + tzOffset) * 1000);
-        const dateStr = localDt.toISOString().split("T")[0];
-        if (!dailyForecasts[dateStr]) dailyForecasts[dateStr] = [];
-        dailyForecasts[dateStr].push(item);
-      });
-
-      const forecastDays = Object.keys(dailyForecasts)
-        .slice(0, 5)
-        .map((dateStr) => {
-          const dayForecasts = dailyForecasts[dateStr];
-          const middayForecast = dayForecasts.reduce((prev, curr) => {
-            const prevHour = new Date((prev.dt + tzOffset) * 1000).getHours();
-            const currHour = new Date((curr.dt + tzOffset) * 1000).getHours();
-            return Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev;
-          });
-          return {
-            date: dateStr,
-            temp_min: Math.min(...dayForecasts.map((f) => f.main.temp_min)),
-            temp_max: Math.max(...dayForecasts.map((f) => f.main.temp_max)),
-            icon: middayForecast.weather[0].icon,
-            description: middayForecast.weather[0].description,
-          };
-        });
-
-      weatherContainer.innerHTML = `
-        <div class="card">
-          <h2>🌤 Weather at Assam Engineering College</h2>
-          <h3>${today}</h3>
-          <h1 class="temperature-display">${current.main.temp.toFixed(1)}°C</h1>
-          <p>Description: ${current.weather[0].description}</p>
-          <p>Humidity: ${current.main.humidity}%</p>
-          <p>Wind: ${current.wind.speed} m/s</p>
-        </div>
-        <div class="card">
-          <h3>Air Quality Index (AQI)</h3>
-          <p style="color: ${aqiColor[aqi]}; font-weight: bold;">
-            ${aqiText[aqi]} (AQI: ${aqiValue100.toFixed(0)} / 100)
-          </p>
-        </div>
-        <div class="card">
-          <h3>5-Day Forecast</h3>
-          <div class="forecast-days">
-            ${forecastDays.map(day => `
-              <div class="forecast-day-card">
-                <p>${new Date(day.date).toDateString()}</p>
-                <img class="forecast-icon" src="${getOpenWeatherIconUrl(day.icon)}" alt="icon" />
-                <p>${day.temp_min.toFixed(1)}°C - ${day.temp_max.toFixed(1)}°C</p>
-                <p>${day.description}</p>
-              </div>`).join('')}
-          </div>
-        </div>
-        <div class="card map-embed">
-          <h3>📍 Assam Engineering College Location</h3>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.762822009021!2d91.6745632!3d26.1578775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375a44cd640e3a17%3A0x1486d7865197b84d!2sAssam%20Engineering%20College!5e0!3m2!1sen!2sin!4v1717655312501!5m2!1sen!2sin"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
-      `;
-    }
-
-    window.onload = () => {
-      getWeatherFixedLocation();
-    };
+    // Animate droplets with random positions and delays
+    const droplets = document.querySelectorAll('.droplet');
+    droplets.forEach(droplet => {
+      droplet.style.left = Math.random() * 100 + 'vw';
+      droplet.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      droplet.style.animationDelay = Math.random() * 5 + 's';
+    });
   </script>
 </body>
 </html>
