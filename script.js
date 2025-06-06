@@ -42,6 +42,10 @@ function displayWeather(current, forecast, aqiData) {
   const today = new Date(Date.now() + tzOffset * 1000).toDateString();
 
   const aqi = aqiData.list[0].main.aqi;
+
+  // Linear mapping of 1-5 AQI scale to 0-100 scale
+  const aqiValue100 = ((aqi - 1) / 4) * 100;
+
   const aqiText = {
     1: "Good",
     2: "Fair",
@@ -49,6 +53,7 @@ function displayWeather(current, forecast, aqiData) {
     4: "Poor",
     5: "Very Poor",
   };
+
   const aqiColor = {
     1: "#009966",
     2: "#ffde33",
@@ -98,9 +103,9 @@ function displayWeather(current, forecast, aqiData) {
             <div class="card">
               <h3>Air Quality Index (AQI)</h3>
               <p style="color: ${aqiColor[aqi]}; font-weight: bold; font-size: 1.2rem;">
-                ${aqiText[aqi]} (AQI: ${aqi})
+                ${aqiText[aqi]} (AQI: ${aqiValue100.toFixed(0)} / 100)
               </p>
-              <p>AQI levels range from 1 (Good) to 5 (Very Poor).</p>
+              <p>AQI levels range from 0 (Good) to 100 (Very Poor).</p>
             </div>
           </div>
 
@@ -134,6 +139,7 @@ function displayWeather(current, forecast, aqiData) {
     </div>
   `;
 }
+
 
 function setupAutoRefreshControls() {
   let intervalId = null;
